@@ -72,41 +72,96 @@ class _ResultScreenState extends State<ResultScreen> {
       alignment: Alignment.topCenter,
       children: [
         Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            automaticallyImplyLeading: false,
-          ),
+          // appBar: AppBar(
+          //   elevation: 0,
+          //   backgroundColor: Colors.transparent,
+          //   automaticallyImplyLeading: false,
+          // ),
           backgroundColor: const Color(0xff14154F),
           body: Padding(
-            padding: const EdgeInsets.only(top: (0.05)),
+            padding: const EdgeInsets.all(5),
             child: Column(
               children: [
                 Center(
-                  child: Column(
+                  child: Row(
                     children: [
-                      Text(
-                        "Congratulations!",
-                        style: Theme.of(context).textTheme.headline3?.copyWith(
-                            color: const Color(0xffFFBA07),
-                            fontWeight: FontWeight.bold),
+                      Container(
+                        height: 350,
+                        width: MediaQuery.of(context).size.width * .35,
+                        color: Colors.amber,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    "Team",
+                                    style: TextStyle(
+                                        fontSize: 40,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 25,
+                                  ),
+                                  Text("data"),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        width: 25,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: (0.05)),
-                        child: CircleAvatar(
-                          backgroundColor: const Color(0xff5A88B0),
-                          radius: 120,
-                          child: Image.asset("assets/icons/kupa.png"),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * .25,
+                        child: Column(
+                          children: [
+                            const Text(
+                              "Congratulations!",
+                              style: TextStyle(
+                                  fontSize: 40,
+                                  color: Color(0xffFFBA07),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: (0.05)),
+                              child: CircleAvatar(
+                                backgroundColor: const Color(0xff5A88B0),
+                                radius: 120,
+                                child: Image.asset("assets/icons/kupa.png"),
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      const SizedBox(
+                        width: 25,
+                      ),
+                      Container(
+                        height: 350,
+                        width: MediaQuery.of(context).size.width * .35,
+                        color: Colors.amber,
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 20,
+                ),
+                Text(
+                  "Team A",
+                  style: Theme.of(context).textTheme.headline3?.copyWith(
+                      color: const Color(0xffFFBA07),
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
