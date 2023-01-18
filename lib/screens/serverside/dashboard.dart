@@ -148,7 +148,7 @@ class _DashBoardState extends State<DashBoard> {
                                 onPressed: (() {
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
-                                      return const ResultScreen();
+                                      return const ResultScreen(score: 23);
                                     },
                                   ));
                                 }),
