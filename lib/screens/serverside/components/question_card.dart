@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
-import 'package:quiz_app/models/Questions.dart';
+
 import 'package:quiz_app/screens/quiz/components/option.dart';
 
 import '../../../constants.dart';
+import '../../../models/QuestionModel.dart';
 
 class QuestionCard extends StatelessWidget {
   QuestionCard({
@@ -14,7 +15,8 @@ class QuestionCard extends StatelessWidget {
   }) : super(key: key);
 
   Question? question;
-  Color? QBColor = const Color.fromARGB(255, 206, 198, 247).withOpacity(.6);
+  Rx<Color> QBColor =
+      const Color.fromARGB(255, 206, 198, 247).withOpacity(.6).obs;
 
   @override
   Widget build(BuildContext context) {
@@ -31,52 +33,87 @@ class QuestionCard extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                // QBColor =
-                //     const Color.fromARGB(255, 254, 180, 180).withOpacity(.6);
+                if (controller.round == 'buzzer') {
+                  QBColor.value =
+                      const Color.fromARGB(255, 254, 180, 180).withOpacity(.6);
+                }
               },
-              child: Container(
-                width: MediaQuery.of(context).size.width * .35,
-                margin: const EdgeInsets.only(top: kDefaultPadding),
-                padding: const EdgeInsets.all(kDefaultPadding * 0.6),
-                decoration: BoxDecoration(
-                  color: QBColor,
-                  border: Border.all(
-                      color: const Color.fromARGB(255, 154, 182, 248)),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  question!.question!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(color: Colors.black),
-                ),
-              ),
+              child: Obx(() {
+                return Container(
+                  width: controller.round != 'rapid'
+                      ? MediaQuery.of(context).size.width * .35
+                      : MediaQuery.of(context).size.width * .6,
+                  margin: const EdgeInsets.only(top: kDefaultPadding),
+                  padding: const EdgeInsets.all(kDefaultPadding * 0.6),
+                  decoration: BoxDecoration(
+                    color: QBColor.value,
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 154, 182, 248)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                    question!.ques,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(color: Colors.black),
+                  ),
+                );
+              }),
             ),
             const SizedBox(width: kDefaultPadding),
-            Container(
-              width: MediaQuery.of(context).size.width * .45,
-              margin: const EdgeInsets.only(top: kDefaultPadding),
-              padding: const EdgeInsets.all(kDefaultPadding / 3.6),
-              // decoration: BoxDecoration(
-              //   color: const Color.fromARGB(255, 205, 220, 254),
-              //   border:
-              //       Border.all(color: const Color.fromARGB(255, 154, 182, 248)),
-              //   borderRadius: BorderRadius.circular(15),
-              // ),
-              child: Column(
-                children: [
-                  ...List.generate(
-                    question!.options.length,
-                    (index) => Option(
-                      index: index,
-                      text: question!.options[index],
-                      press: () => controller.checkAns(question!, index),
+            if (controller.round != 'rapid')
+              Container(
+                width: MediaQuery.of(context).size.width * .45,
+                margin: const EdgeInsets.only(top: kDefaultPadding),
+                padding: const EdgeInsets.all(kDefaultPadding / 3.6),
+                // decoration: BoxDecoration(
+                //   color: const Color.fromARGB(255, 205, 220, 254),
+                //   border:
+                //       Border.all(color: const Color.fromARGB(255, 154, 182, 248)),
+                //   borderRadius: BorderRadius.circular(15),
+                // ),
+                child: Column(
+                  children: [
+                    // ...List.generate(
+                    //   question!.options.length,
+                    //   (index) => Option(
+                    //     index: index,
+                    //     text: question!.options[index],
+                    //     press: () => controller.checkAns(question!, index),
+                    //   ),
+                    // ),
+                    Option(
+                      index: 0,
+                      text: question!.opt1,
+                      press: () {
+                        controller.checkAns(question!, question!.opt1);
+                      },
                     ),
-                  ),
-                ],
-              ),
-            )
+                    Option(
+                      index: 1,
+                      text: question!.opt2,
+                      press: () {
+                        controller.checkAns(question!, question!.opt2);
+                      },
+                    ),
+                    Option(
+                      index: 2,
+                      text: question!.opt3,
+                      press: () {
+                        controller.checkAns(question!, question!.opt3);
+                      },
+                    ),
+                    Option(
+                      index: 3,
+                      text: question!.opt4,
+                      press: () {
+                        controller.checkAns(question!, question!.opt4);
+                      },
+                    )
+                  ],
+                ),
+              )
           ],
         ),
       ),

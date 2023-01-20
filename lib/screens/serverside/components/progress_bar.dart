@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../constants.dart';
 
 class ProgressBar extends StatelessWidget {
-  const ProgressBar({
+  ProgressBar({
     Key? key,
   }) : super(key: key);
 
+  QuestionController controller = Get.put(QuestionController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,7 +46,7 @@ class ProgressBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${(controller.animation.value * 60).round()} sec",
+                        "${(controller.animation.value * (controller.round == 'rapid' ? 120 : controller.round == 'buzzer' ? 5 : 60)).round()} sec",
                         style: const TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),

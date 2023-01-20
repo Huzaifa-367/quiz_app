@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
-import 'package:quiz_app/models/Questions.dart';
+
 import 'package:quiz_app/screens/quiz/components/option.dart';
 
 import '../../../constants.dart';
+import '../../../models/QuestionModel.dart';
 
 class QuestionCard extends StatelessWidget {
   QuestionCard({
@@ -38,7 +39,7 @@ class QuestionCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Text(
-                question!.question!,
+                question!.ques,
                 style: Theme.of(context)
                     .textTheme
                     .headline6!
@@ -46,14 +47,34 @@ class QuestionCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: kDefaultPadding / 2),
-            ...List.generate(
-              question!.options.length,
-              (index) => Option(
-                index: index,
-                text: question!.options[index],
-                press: () => controller.checkAns(question!, index),
-              ),
+            Option(
+              index: 0,
+              text: question!.opt1,
+              press: () {
+                controller.checkAns(question!, question!.opt1);
+              },
             ),
+            Option(
+              index: 1,
+              text: question!.opt2,
+              press: () {
+                controller.checkAns(question!, question!.opt2);
+              },
+            ),
+            Option(
+              index: 2,
+              text: question!.opt3,
+              press: () {
+                controller.checkAns(question!, question!.opt3);
+              },
+            ),
+            Option(
+              index: 3,
+              text: question!.opt4,
+              press: () {
+                controller.checkAns(question!, question!.opt4);
+              },
+            )
           ],
         ),
       ),
