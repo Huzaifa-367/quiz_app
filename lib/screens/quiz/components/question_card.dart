@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
-import 'package:quiz_app/models/Questions.dart';
+
 import 'package:quiz_app/screens/quiz/components/option.dart';
 
 import '../../../constants.dart';
+import '../../../models/QuestionModel.dart';
 
 class QuestionCard extends StatelessWidget {
   QuestionCard({
@@ -14,7 +15,8 @@ class QuestionCard extends StatelessWidget {
   }) : super(key: key);
 
   Question? question;
-
+  Rx<Color> QBColor =
+      const Color.fromARGB(255, 206, 198, 247).withOpacity(.6).obs;
   @override
   Widget build(BuildContext context) {
     QuestionController controller = Get.put(QuestionController());
@@ -28,32 +30,64 @@ class QuestionCard extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: kDefaultPadding),
-              padding: const EdgeInsets.all(kDefaultPadding * 0.9),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 205, 220, 254),
-                border:
-                    Border.all(color: const Color.fromARGB(255, 154, 182, 248)),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                question!.question!,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(color: Colors.black),
-              ),
+            Obx(
+              () {
+                return GestureDetector(
+                  onTap: () {
+                    if (controller.round == 'buzzer') {
+                      QBColor.value = const Color.fromARGB(255, 254, 180, 180)
+                          .withOpacity(.6);
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: kDefaultPadding),
+                    padding: const EdgeInsets.all(kDefaultPadding * 0.9),
+                    decoration: BoxDecoration(
+                      color: QBColor.value,
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 154, 182, 248)),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      question!.ques,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6!
+                          .copyWith(color: Colors.black),
+                    ),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: kDefaultPadding / 2),
-            ...List.generate(
-              question!.options.length,
-              (index) => Option(
-                index: index,
-                text: question!.options[index],
-                press: () => controller.checkAns(question!, index),
-              ),
+            Option(
+              index: 0,
+              text: question!.opt1,
+              press: () {
+                controller.checkAns(question!, question!.opt1);
+              },
             ),
+            Option(
+              index: 1,
+              text: question!.opt2,
+              press: () {
+                controller.checkAns(question!, question!.opt2);
+              },
+            ),
+            Option(
+              index: 2,
+              text: question!.opt3,
+              press: () {
+                controller.checkAns(question!, question!.opt3);
+              },
+            ),
+            Option(
+              index: 3,
+              text: question!.opt4,
+              press: () {
+                controller.checkAns(question!, question!.opt4);
+              },
+            )
           ],
         ),
       ),

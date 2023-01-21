@@ -4,13 +4,13 @@ class eventss {
   int id;
   String dates;
   String type;
-  int? tteams;
+  int? Tteams;
   String status;
   eventss({
     required this.id,
     required this.dates,
     required this.type,
-    this.tteams,
+    this.Tteams,
     required this.status,
   });
 
@@ -18,14 +18,14 @@ class eventss {
     int? id,
     String? dates,
     String? type,
-    int? tteams,
+    int? Tteams,
     String? status,
   }) {
     return eventss(
       id: id ?? this.id,
       dates: dates ?? this.dates,
       type: type ?? this.type,
-      tteams: tteams ?? this.tteams,
+      Tteams: Tteams ?? this.Tteams,
       status: status ?? this.status,
     );
   }
@@ -36,8 +36,8 @@ class eventss {
     result.addAll({'id': id});
     result.addAll({'dates': dates});
     result.addAll({'type': type});
-    if (tteams != null) {
-      result.addAll({'tteams': tteams});
+    if (Tteams != null) {
+      result.addAll({'Tteams': Tteams});
     }
     result.addAll({'status': status});
 
@@ -49,7 +49,7 @@ class eventss {
       id: map['id']?.toInt() ?? 0,
       dates: map['dates'] ?? '',
       type: map['type'] ?? '',
-      tteams: map['tteams']?.toInt(),
+      Tteams: map['Tteams']?.toInt(),
       status: map['status'] ?? '',
     );
   }
@@ -61,7 +61,7 @@ class eventss {
 
   @override
   String toString() {
-    return 'eventss(id: $id, dates: $dates, type: $type, tteams: $tteams, status: $status)';
+    return 'eventss(id: $id, dates: $dates, type: $type, Tteams: $Tteams, status: $status)';
   }
 
   @override
@@ -72,7 +72,7 @@ class eventss {
         other.id == id &&
         other.dates == dates &&
         other.type == type &&
-        other.tteams == tteams &&
+        other.Tteams == Tteams &&
         other.status == status;
   }
 
@@ -81,7 +81,7 @@ class eventss {
     return id.hashCode ^
         dates.hashCode ^
         type.hashCode ^
-        tteams.hashCode ^
+        Tteams.hashCode ^
         status.hashCode;
   }
 }

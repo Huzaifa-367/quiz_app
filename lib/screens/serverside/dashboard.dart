@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quiz_app/controllers/EventsController.dart';
 import 'package:quiz_app/screens/serverside/result_Screen.dart';
 
 import 'package:quiz_app/screens/serverside/widgets/eventcard.dart';
 import 'package:quiz_app/screens/serverside/widgets/eventlist.dart';
-import 'package:quiz_app/screens/serverside/widgets/que_screen.dart';
-
-import '../../models/Events.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
@@ -16,6 +15,20 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  var controller = Get.put(EventController());
+  //var serverController = Get.put(Server());
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    getEvents();
+  }
+
+  getEvents() async {
+    await controller.getEventsList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,11 +101,11 @@ class _DashBoardState extends State<DashBoard> {
                                           .withOpacity(.9),
                                 ),
                                 onPressed: (() {
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return ServerQuizScreen();
-                                    },
-                                  ));
+                                  // Navigator.push(context, MaterialPageRoute(
+                                  //   builder: (context) {
+                                  //     return ServerQuizScreen();
+                                  //   },
+                                  // ));
                                 }),
                                 child: Text(
                                   "Recent",
@@ -180,7 +193,7 @@ class _DashBoardState extends State<DashBoard> {
           ),
           SizedBox(
               height: MediaQuery.of(context).size.height * 0.65,
-              child: RestaurantList(restaurantList: cachedRestaurantList)),
+              child: const RestaurantList()),
           const SizedBox(
             height: 20,
           )

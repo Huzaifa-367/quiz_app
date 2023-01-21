@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../models/Events.dart';
+import 'package:quiz_app/models/Event.dart';
 
 class EventCard extends StatelessWidget {
   final Color backgroundColor;
-  late Restaurant restaurant;
+  late eventss restaurant;
   final VoidCallback onTap;
 
   EventCard({
@@ -39,8 +38,8 @@ class EventCard extends StatelessWidget {
                   width: 300,
                   child: AspectRatio(
                     aspectRatio: 1.8,
-                    child: Image.asset(
-                      restaurant.imageUrl,
+                    child: Image.network(
+                      'https://cdn.pixabay.com/photo/2018/01/12/10/19/fantasy-3077928_1280.jpg',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -53,7 +52,7 @@ class EventCard extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    restaurant.name,
+                    restaurant.type,
                     style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -64,7 +63,7 @@ class EventCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    restaurant.resType,
+                    restaurant.dates,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.w700,
@@ -101,7 +100,7 @@ class EventCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            restaurant.rating,
+                            restaurant.Tteams.toString(),
                             style: GoogleFonts.montserrat(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -145,7 +144,7 @@ class EventCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            restaurant.distance,
+                            restaurant.Tteams.toString(),
                             style: GoogleFonts.montserrat(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

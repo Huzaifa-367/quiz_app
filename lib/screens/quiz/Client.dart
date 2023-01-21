@@ -1,39 +1,34 @@
-import 'dart:convert';
 import 'dart:io';
 
 //import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quiz_app/controllers/question_controller.dart';
+import 'package:quiz_app/screens/quiz/quiz_screen.dart';
+
 // import 'package:flutter_application_1/BuzzerScreen.dart';
 // import 'package:flutter_application_1/Dialogues.dart';
 
-class Client {
-  static String? id;
-  static String pressedBy = "-1";
+class Client extends GetxController {
+  RxString id = "".obs;
+  RxString pressedBy = "-1".obs;
+  Rx<TextEditingController> ipController = TextEditingController().obs;
+  Rx<TextEditingController> nameController = TextEditingController().obs;
 
-  static late Socket socket;
-  static late Stream broadCastStream;
-  static buzzerPressed(context) async {
+  late Socket socket;
+  late Stream broadCastStream;
+  buzzerPressed(context) async {
     try {
-      //String ip = await getIp();
-      //socket = await Socket.connect(MyHomePage.ipController.text.trim(), 5000);
+      // String ip = await getIp(context);
+      socket = await Socket.connect(ipController.value.text.trim(), 5000);
+      startListening();
 
-      broadCastStream = socket.asBroadcastStream();
-      // Dialogue.getWaiting(
-      //     context, "", 'Waiting for others to join...', DialogType.info);
-
-      utf8.decode(await broadCastStream.first);
-      //id = MyHomePage.nameController.text;
-
-      if (id != null) {
-        // Navigator.pushReplacement(context, MaterialPageRoute(
-        //   builder: (context) {
-        //     return const BuzzerScreen();
-        //   },
-        // ));
-      }
       // Read data from the server
       //MyHomePage.isPressed = false;
     } catch (ex) {
+      Get.back();
+      Get.snackbar('', 'Something gone wrong...', colorText: Colors.black);
       //Navigator.pop(context);
       // Dialogue.getWaiting(
       //     context, "", 'Something gone wrong...', DialogType.error);
@@ -41,7 +36,60 @@ class Client {
     }
   }
 
-  getIp(context) async {
+  sendMessage(message) {
+    try {
+      socket.write(message);
+    } catch (e) {
+      printError(info: e.toString());
+    }
+  }
+
+  startListening() async {
+    try {
+      socket.write("${nameController.value.text}:");
+      socket.listen(
+        (Uint8List data) {
+          if (id.value == "") {
+            id.value = String.fromCharCodes(data);
+            Get.back();
+            if (id.value != 'Not found') {
+              Get.snackbar('', 'Successfully connected as ${id.value}',
+                  colorText: Colors.black);
+            } else {
+              id.value = "";
+              Get.snackbar('can\'t connect...',
+                  'Make team exists by this name \n Or no one connected already');
+            }
+          } else {
+            pressedBy.value = String.fromCharCodes(data);
+            if (pressedBy.value == 'mcq' ||
+                pressedBy.value == 'rapid' ||
+                pressedBy.value == 'buzzer') {
+              var q = Get.put(QuestionController());
+              q.round = pressedBy.value;
+              Get.to(QuizScreen());
+            }
+          }
+          //broadCastMessage(data, team);
+          // notifyListeners();
+        },
+        onError: (error) {
+          print(error);
+          //connectedTeams.remove(team);
+
+          socket.close();
+        },
+        onDone: () {
+          // connectedTeams.remove(team);
+          socket.close();
+        },
+      );
+    } catch (e) {
+      printError(info: e.toString());
+    }
+  }
+
+  getIp() async {
     try {
       // Get a list of network interfaces
       List<NetworkInterface> interfaces = await NetworkInterface.list();
@@ -49,17 +97,17 @@ class Client {
       // Loop through the interfaces
       for (NetworkInterface ni in interfaces) {
         // Check if the interface is a WiFi interface
-        if (ni.name.startsWith('wlan')) {
+        if (ni.name.startsWith('Wi')) {
           // Get the gateway address of the WiFi interface
           List<InternetAddress> addresses = ni.addresses;
           for (InternetAddress address in addresses) {
-            //  MyHomePage.ipController.text = address.address;
+            ipController.value.text = address.address;
           }
         }
       }
     } catch (ex) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Could not load IP address.\nTry Again')));
+      Get.snackbar('', 'Could not load IP address.\nTry Again');
     }
+    return ipController.value.text;
   }
 }
