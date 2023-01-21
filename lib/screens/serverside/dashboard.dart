@@ -16,6 +16,7 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   var controller = Get.put(EventController());
+  //var serverController = Get.put(Server());
   @override
   void initState() {
     // TODO: implement initState

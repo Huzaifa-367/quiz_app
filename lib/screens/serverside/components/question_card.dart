@@ -32,12 +32,7 @@ class QuestionCard extends StatelessWidget {
         child: Row(
           children: [
             GestureDetector(
-              onTap: () {
-                if (controller.round == 'buzzer') {
-                  QBColor.value =
-                      const Color.fromARGB(255, 254, 180, 180).withOpacity(.6);
-                }
-              },
+              onTap: () {},
               child: Obx(() {
                 return Container(
                   width: controller.round != 'rapid'

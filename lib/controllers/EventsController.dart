@@ -15,4 +15,9 @@ class EventController extends GetxController
     return eventssList;
     //notifyChildrens();
   }
+
+  // QuestionController controller = Get.put(QuestionController());
+  // startTimer() {
+  //   controller.animationController!.repeat();
+  // }
 }

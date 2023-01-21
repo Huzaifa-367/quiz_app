@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
-class team {
+import 'package:get/get.dart';
+
+class team extends GetxController {
   int id;
   String teamName;
   String teamType;
@@ -9,6 +12,8 @@ class team {
   int? buzzerRound;
   int? mcqRound;
   int? rapidRound;
+  RxString status = 'Pending'.obs;
+  Socket? socket;
   int? buzzerWrong;
   team({
     required this.id,

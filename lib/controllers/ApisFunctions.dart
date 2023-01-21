@@ -7,9 +7,11 @@ import 'package:quiz_app/controllers/TeamsController.dart';
 import 'package:quiz_app/models/Event.dart';
 import 'package:quiz_app/models/QuestionModel.dart';
 import 'package:quiz_app/models/TeamModel.dart';
+import 'package:quiz_app/screens/quiz/Client.dart';
 
-String ip = '192.168.1.73';
+String ip = '';
 getQuestionss() async {
+  ip = await Client().getIp();
   List<Question> questions = [];
   try {
     var contr = Get.find<EventController>();
@@ -28,6 +30,7 @@ getQuestionss() async {
 }
 
 getEventsLists() async {
+  ip = await Client().getIp();
   List<eventss> events = [];
   try {
     var response =
@@ -45,6 +48,7 @@ getEventsLists() async {
 }
 
 deleteEvent(eventss e) async {
+  ip = await Client().getIp();
   try {
     var response =
         await Dio().post('http://$ip/ScoringAppServer/api/events/deleteEvent',
@@ -62,9 +66,11 @@ deleteEvent(eventss e) async {
 }
 
 getTeamsDetails() async {
+  ip = await Client().getIp();
+  var teams = Get.put(TeamsController());
   try {
     var v = Get.find<EventController>();
-    var teams = Get.put(TeamsController());
+
     var response = await Dio().post(
       'http://$ip/ScoringAppServer/api/teams/getTeamDetail?id=${v.onGoingEvent!.id}',
     );
@@ -79,4 +85,5 @@ getTeamsDetails() async {
   } catch (e) {
     print(e);
   }
+  return teams.teams;
 }

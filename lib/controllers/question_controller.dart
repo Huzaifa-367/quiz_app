@@ -34,7 +34,7 @@ class QuestionController extends GetxController
   late String _selectedAns;
   String get selectedAns => _selectedAns;
   List<q.Question> allQuestions = [];
-  getQuestions(round) async {
+  getQuestions(r) async {
     if (allQuestions.isEmpty) {
       allQuestions = await getQuestionss();
       await TeamsController().getTeamsDetail();
@@ -56,7 +56,7 @@ class QuestionController extends GetxController
 
   RxInt get questionNumber => _questionNumber;
 
-  int _numOfCorrectAns = 0;
+  final int _numOfCorrectAns = 0;
   int get numOfCorrectAns => _numOfCorrectAns;
 
   // called immediately after the widget is allocated memory
@@ -96,14 +96,27 @@ class QuestionController extends GetxController
     _isAnswered = true;
     _correctAns = question.answer.trim();
     _selectedAns = selectedIndex.trim();
-
-    if (_correctAns == _selectedAns) _numOfCorrectAns++;
-
-    // It will stop the counter
     if (animationController != null) {
       animationController!.stop();
     }
     update();
+    if (_correctAns == _selectedAns) {
+      if (round == 'rapid') {
+        teamController.teams[eventController.team].rapidRound =
+            teamController.teams[eventController.team].rapidRound! + 1;
+      } else if (round == 'buzzer') {
+        teamController.teams[eventController.team].buzzerRound =
+            teamController.teams[eventController.team].buzzerRound! + 1;
+      } else if (round == 'mcq') {
+        teamController.teams[eventController.team].mcqRound =
+            teamController.teams[eventController.team].mcqRound! + 1;
+      }
+    } else if (round == 'buzzer') {
+      teamController.teams[eventController.team].buzzerWrong =
+          teamController.teams[eventController.team].buzzerWrong! + 1;
+    }
+
+    // It will stop the counter
 
     // Once user select an ans after 3s it will go to the next qn
     Future.delayed(const Duration(seconds: 3), () {
@@ -118,18 +131,26 @@ class QuestionController extends GetxController
           duration: const Duration(milliseconds: 250), curve: Curves.ease);
 
       // Reset the counter
-      animationController!.reset();
-
+      if (round == 'rapid') {
+        // animationController!.reset();
+        animationController!.forward().whenComplete(nextQuestion);
+      } else if (round == 'buzzer') {
+        animationController!.reset();
+        animationController!.stop();
+      } else {
+        animationController!.reset();
+        animationController!.forward().whenComplete(nextQuestion);
+      }
       // Then start it again
       // Once timer is finish go to the next
-      animationController!.forward().whenComplete(nextQuestion);
+
     } else {
       // Get package provide us simple way to naviigate another page
       Get.to(ScoreScreen());
     }
   }
 
-  var eventController = Get.find<EventController>();
+  var eventController = Get.put(EventController());
   var teamController = Get.put(TeamsController());
   void updateTheQnNum(int index) async {
     if (round == 'mcq') {
@@ -142,10 +163,12 @@ class QuestionController extends GetxController
       }
     } else if (round == 'rapid') {
       if (_questionNumber.value <= 2) {
+        eventController.team = 0;
         eventController.teamName.value =
             teamController.teams[0].teamName.toString();
       }
       if (_questionNumber.value == questions.length / 2) {
+        eventController.team++;
         animationController!.stop();
         await Get.defaultDialog(
             confirm: ElevatedButton(
@@ -154,6 +177,7 @@ class QuestionController extends GetxController
                 },
                 child: const Text('Ok')),
             content: const Text('Press ok to continue for next team'));
+        animationController!.reset();
         animationController!.repeat();
         eventController.teamName.value =
             teamController.teams[1].teamName.toString();

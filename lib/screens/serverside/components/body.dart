@@ -149,27 +149,33 @@ class _BodyState extends State<Body> {
                               itemBuilder: (context, index) {
                                 return Obx(
                                   () {
-                                    return CircleAvatar(
-                                      backgroundColor:
-                                          eventController.teamName.value !=
-                                                  teamsController
-                                                      .teams[index].teamName
-                                              ? const Color.fromARGB(
-                                                      255, 206, 198, 247)
-                                                  .withOpacity(0.3)
-                                              : Colors.green,
-                                      radius: 50,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: FittedBox(
-                                          fit: BoxFit.contain,
-                                          child: Text(
-                                            teamsController
-                                                .teams[index].teamName,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w700,
+                                    return GestureDetector(
+                                      onTap: () {
+                                        controller.animationController!
+                                            .repeat();
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor:
+                                            eventController.teamName.value !=
+                                                    teamsController
+                                                        .teams[index].teamName
+                                                ? const Color.fromARGB(
+                                                        255, 206, 198, 247)
+                                                    .withOpacity(0.3)
+                                                : Colors.green,
+                                        radius: 50,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: FittedBox(
+                                            fit: BoxFit.contain,
+                                            child: Text(
+                                              teamsController
+                                                  .teams[index].teamName,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                             ),
                                           ),
                                         ),
