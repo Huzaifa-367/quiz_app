@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/constants.dart';
-import 'package:quiz_app/screens/quiz/quiz_screen.dart';
+import 'package:quiz_app/screens/quiz/Client.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  Client client = Get.put(Client());
   @override
   Widget build(BuildContext context) {
+    client.getIp();
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -68,30 +70,60 @@ class WelcomeScreen extends StatelessWidget {
                       const SizedBox(
                         height: 55,
                       ),
-                      //const Spacer(), // 1/6
-                      GestureDetector(
-                          child: Container(
-                        alignment: Alignment.center,
-                        height: 100,
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFF1C2341),
-                            hintText: "Full Name",
-                            hintStyle: TextStyle(fontSize: 23),
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
-                          ),
-                        ),
-                      )),
+                      //const Spacer(),
+                      // // 1/6
+                      Obx(
+                        () {
+                          return getTextInputField(
+                              client.nameController, 'Enter name');
+                        },
+                      ),
+
+                      // const Spacer(), // 1/6
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Obx(
+                        () {
+                          return getTextInputField(
+                              client.ipController, 'Enter Ip');
+                        },
+                      ),
+
                       // const Spacer(), // 1/6
                       const SizedBox(
                         height: 15,
                       ),
                       InkWell(
-                        onTap: () => Get.to(QuizScreen()),
+                        onTap: () async {
+                          if (client.ipController.value.text != "" &&
+                              client.nameController.value.text != "") {
+                            Get.defaultDialog(
+                                backgroundColor: Colors.black38,
+                                barrierDismissible: false,
+                                title: '',
+                                content: SizedBox(
+                                  width: 300,
+                                  height: 100,
+                                  child: Column(
+                                    children: const [
+                                      Text('Trying to connect...'),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      CircularProgressIndicator()
+                                    ],
+                                  ),
+                                ));
+                            await client.buzzerPressed(context);
+                          } else if (client.nameController.value.text == "") {
+                            Get.snackbar('', 'Please enter name',
+                                colorText: Colors.black);
+                          } else if (client.ipController.value.text == "") {
+                            Get.snackbar('', 'Please enter ip Address',
+                                colorText: Colors.black);
+                          }
+                        },
                         child: Container(
                           width: double.infinity,
                           // alignment: Alignment.center,

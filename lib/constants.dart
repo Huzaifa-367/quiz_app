@@ -15,3 +15,22 @@ const kPrimaryGradient = LinearGradient(
 );
 
 const double kDefaultPadding = 20.0;
+getTextInputField(controller, hint) {
+  return Container(
+    alignment: Alignment.center,
+    height: 100,
+    child: TextField(
+      controller: controller.value,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: const Color(0xFF1C2341),
+        hintText: hint,
+        hintStyle: const TextStyle(fontSize: 23),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+        ),
+      ),
+    ),
+  );
+  // const Spacer(), // 1/6
+}

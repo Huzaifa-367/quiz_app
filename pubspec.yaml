@@ -39,7 +39,11 @@ dependencies:
   flutter_svg: ^1.1.6
   get: ^4.6.5
   google_fonts: ^3.0.1
+  
   cached_network_image: ^3.2.3
+  confetti: ^0.7.0
+  dio: ^4.0.6
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
