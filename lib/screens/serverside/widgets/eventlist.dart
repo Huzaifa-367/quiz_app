@@ -91,7 +91,7 @@ class _RestaurantListState extends State<RestaurantList> {
                                   color: Colors.grey.shade600,
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 5),
                               Material(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(50),
@@ -142,102 +142,9 @@ class _RestaurantListState extends State<RestaurantList> {
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: SizedBox(
-                                    height: 50,
-                                    width: 160,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 5,
-                                        backgroundColor: const Color.fromARGB(
-                                            218, 255, 255, 255),
-                                      ),
-                                      onPressed: (() {
-                                        c.round = 'mcq';
-                                        controller.onGoingEvent =
-                                            controller.eventssList[index];
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return ServerQuizScreen('mcq');
-                                          },
-                                        ));
-                                      }),
-                                      child: Text(
-                                        "MCQ's",
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: SizedBox(
-                                    height: 50,
-                                    width: 160,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 5,
-                                        backgroundColor: const Color.fromARGB(
-                                            218, 255, 255, 255),
-                                      ),
-                                      onPressed: (() {
-                                        c.round = 'rapid';
-                                        controller.onGoingEvent =
-                                            controller.eventssList[index];
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return ServerQuizScreen('rapid');
-                                          },
-                                        ));
-                                      }),
-                                      child: Text(
-                                        "Rapid",
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: SizedBox(
-                                    height: 50,
-                                    width: 160,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 5,
-                                        backgroundColor: const Color.fromARGB(
-                                            218, 255, 255, 255),
-                                      ),
-                                      onPressed: (() {
-                                        c.round = 'buzzer';
-                                        controller.onGoingEvent =
-                                            controller.eventssList[index];
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return ServerQuizScreen('buzzer');
-                                          },
-                                        ));
-                                      }),
-                                      child: Text(
-                                        "Buzzer",
-                                        style: GoogleFonts.montserrat(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                getOptionWidget('MCQ', index),
+                                getOptionWidget('Rapid', index),
+                                getOptionWidget('Buzzer', index),
                                 Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: SizedBox(
@@ -287,6 +194,38 @@ class _RestaurantListState extends State<RestaurantList> {
             return const Center(child: CircularProgressIndicator());
           }
         },
+      ),
+    );
+  }
+
+  getOptionWidget(String text, index) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: SizedBox(
+        height: 50,
+        width: 160,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            elevation: 5,
+            backgroundColor: const Color.fromARGB(218, 255, 255, 255),
+          ),
+          onPressed: (() {
+            c.round = text.toLowerCase();
+
+            c.eventId = controller.eventssList[index].id;
+            controller.onGoingEvent = controller.eventssList[index];
+            Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) {
+                return ServerQuizScreen(text.toLowerCase());
+              },
+            ));
+          }),
+          child: Text(
+            text,
+            style: GoogleFonts.montserrat(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+        ),
       ),
     );
   }

@@ -77,18 +77,14 @@ class _ServerQuizScreenState extends State<ServerQuizScreen> {
         elevation: 0,
         //actions: const [],
       ),
-      body:
+      body: Obx(() =>
           teamController.connectedTeams.value == teamController.teams.length &&
                   teamController.connectedTeams.value != 0 &&
                   !isLoading
               ? Body(
                   round: widget.round,
                 )
-              : Center(child: Obx(
-                  () {
-                    return getConnectingScreen();
-                  },
-                )),
+              : Center(child: getConnectingScreen())),
     );
   }
 

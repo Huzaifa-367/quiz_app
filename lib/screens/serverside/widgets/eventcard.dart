@@ -49,112 +49,110 @@ class EventCard extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Column(
-                children: [
-                  Text(
-                    restaurant.type,
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black),
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    restaurant.dates,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13,
-                      color: Colors.grey.shade600,
+              FittedBox(
+                fit: BoxFit.fill,
+                child: Column(
+                  children: [
+                    Text(
+                      restaurant.type,
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 3),
+                    Text(
+                      restaurant.dates,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const Spacer(),
-              SizedBox(
-                height: 50,
-                child: IntrinsicHeight(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Teams  ",
-                                style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
-                              const Icon(
-                                Icons.person,
-                                size: 14,
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
                           Text(
-                            restaurant.Tteams.toString(),
+                            "Teams  ",
                             style: GoogleFonts.montserrat(
-                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
-                          )
-                        ],
-                      ),
-                      // const CustomDivider(height: 40),
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Row(
-                      //       children: [
-                      //         const CurrencyIcon(size: 10),
-                      //         CurrencyIcon(
-                      //             size: 10, color: Colors.grey.shade600),
-                      //         CurrencyIcon(
-                      //             size: 10, color: Colors.grey.shade600),
-                      //       ],
-                      //     ),
-                      //     const SizedBox(height: 10),
-                      //     Text(
-                      //       restaurant.price,
-                      //       style: GoogleFonts.montserrat(
-                      //         fontSize: 16,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     )
-                      //   ],
-                      // ),
-                      const CustomDivider(height: 40),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "km",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            restaurant.Tteams.toString(),
-                            style: GoogleFonts.montserrat(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
+                          const Icon(
+                            Icons.person,
+                            size: 14,
+                            color: Colors.black,
+                          ),
                         ],
                       ),
+                      const SizedBox(height: 10),
+                      Text(
+                        restaurant.Tteams.toString(),
+                        style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      )
                     ],
                   ),
-                ),
+                  // const CustomDivider(height: 40),
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Row(
+                  //       children: [
+                  //         const CurrencyIcon(size: 10),
+                  //         CurrencyIcon(
+                  //             size: 10, color: Colors.grey.shade600),
+                  //         CurrencyIcon(
+                  //             size: 10, color: Colors.grey.shade600),
+                  //       ],
+                  //     ),
+                  //     const SizedBox(height: 10),
+                  //     Text(
+                  //       restaurant.price,
+                  //       style: GoogleFonts.montserrat(
+                  //         fontSize: 16,
+                  //         fontWeight: FontWeight.bold,
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
+                  const CustomDivider(height: 40),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "km",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        restaurant.Tteams.toString(),
+                        style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
             ],
           ),

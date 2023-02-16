@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/controllers/EventsController.dart';
 import 'package:quiz_app/controllers/TeamsController.dart';
+import 'package:quiz_app/controllers/question_controller.dart';
 import 'package:quiz_app/models/Event.dart';
 import 'package:quiz_app/models/QuestionModel.dart';
 import 'package:quiz_app/models/TeamModel.dart';
@@ -69,10 +70,10 @@ getTeamsDetails() async {
   ip = await Client().getIp();
   var teams = Get.put(TeamsController());
   try {
-    var v = Get.find<EventController>();
+    var v = Get.find<QuestionController>();
 
     var response = await Dio().post(
-      'http://$ip/ScoringAppServer/api/teams/getTeamDetail?id=${v.onGoingEvent!.id}',
+      'http://$ip/ScoringAppServer/api/teams/getTeamDetail?id=${v.eventId}',
     );
     if (response.statusCode == 200) {
       //Get.snackbar('Event', response.data);

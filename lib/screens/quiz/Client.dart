@@ -45,13 +45,14 @@ class Client extends GetxController {
   }
 
   startListening() async {
+    var q = Get.put(QuestionController());
     try {
       socket.write("${nameController.value.text}:");
       socket.listen(
         (Uint8List data) {
           if (id.value == "") {
             id.value = String.fromCharCodes(data);
-            Get.back();
+            //Get.back();
             if (id.value != 'Not found') {
               Get.snackbar('', 'Successfully connected as ${id.value}',
                   colorText: Colors.black);
@@ -60,14 +61,25 @@ class Client extends GetxController {
               Get.snackbar('can\'t connect...',
                   'Make team exists by this name \n Or no one connected already');
             }
-          } else {
+          } else if (pressedBy.value.contains('mcq') ||
+              pressedBy.value.contains('rapid') ||
+              pressedBy.value.contains('buzzer')) {
             pressedBy.value = String.fromCharCodes(data);
-            if (pressedBy.value == 'mcq' ||
-                pressedBy.value == 'rapid' ||
-                pressedBy.value == 'buzzer') {
-              var q = Get.put(QuestionController());
+
+            try {
               q.round = pressedBy.value;
+
+              q.eventId = int.parse(pressedBy.value.split(':')[1].trim());
               Get.to(QuizScreen());
+            } catch (e) {
+              printError(info: e.toString());
+            }
+          } else {
+            try {
+              pressedBy.value = String.fromCharCodes(data);
+              q.questionNumber.value = int.parse(pressedBy.value);
+            } catch (e) {
+              printError(info: e.toString());
             }
           }
           //broadCastMessage(data, team);

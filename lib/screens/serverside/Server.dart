@@ -37,7 +37,9 @@ class Server extends GetxController {
         if (teamsController.teams.length ==
             teamsController.connectedTeams.value) {
           Future.delayed(const Duration(seconds: 5)).then((value) {
-            broadCastMessage(questionController.round, '');
+            broadCastMessage(
+                '${questionController.round!}:${questionController.eventId}',
+                '');
           });
         }
         // Get.back();

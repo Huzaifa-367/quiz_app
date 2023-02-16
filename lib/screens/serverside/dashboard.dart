@@ -46,39 +46,45 @@ class _DashBoardState extends State<DashBoard> {
                     height: MediaQuery.of(context).size.height * 0.18,
                     //width: MediaQuery.of(context).size.,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text(
-                          'Shahid',
-                          style: TextStyle(color: Colors.green),
+                        Container(
+                          height: 250,
+                          width: 250,
+                          decoration: const BoxDecoration(
+                              // color: Colors.black,
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/icons/SocietyLogo.png'))),
                         ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: TextFormField(
-                              style: const TextStyle(color: Colors.grey),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color:
-                                          Color.fromARGB(218, 255, 255, 255)),
-                                  borderRadius: BorderRadius.circular(15.0),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.15),
+                          child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: TextFormField(
+                                style: const TextStyle(color: Colors.grey),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color:
+                                            Color.fromARGB(218, 255, 255, 255)),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  suffixIcon: IconButton(
+                                    color: Colors.grey,
+                                    icon: const Icon(Icons.search),
+                                    onPressed: () {},
+                                  ),
+                                  hintText: 'Search an event...',
+                                  hintStyle:
+                                      const TextStyle(color: Colors.grey),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
                                 ),
-                                suffixIcon: IconButton(
-                                  color: Colors.grey,
-                                  icon: const Icon(Icons.search),
-                                  onPressed: () {},
-                                ),
-                                hintText: 'Search an event...',
-                                hintStyle: const TextStyle(color: Colors.grey),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                              ),
-                            )),
-                        const Text(
-                          'Huzaifa',
-                          style: TextStyle(color: Colors.green),
-                        )
+                              )),
+                        ),
                       ],
                     ),
                   ),
