@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/controllers/TeamsController.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
 import 'package:quiz_app/screens/quiz/Client.dart';
@@ -57,9 +58,18 @@ class _ServerQuizScreenState extends State<ServerQuizScreen> {
               },
             ));
           },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.black,
+          icon: Container(
+            height: 40,
+            width: 80,
+            decoration: BoxDecoration(
+              color: kGrayColor,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.black,
+              size: 30,
+            ),
           ),
         ),
         // Fluttter show the back button automatically
@@ -67,104 +77,142 @@ class _ServerQuizScreenState extends State<ServerQuizScreen> {
         elevation: 0,
         //actions: const [],
       ),
-      body: teamController.connectedTeams.value ==
-                  teamController.teams.length &&
-              teamController.connectedTeams.value != 0 &&
-              !isLoading
-          ? Body(
-              round: widget.round,
-            )
-          : Center(child: Obx(
-              () {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width / 2,
-                    color: Colors.black38,
-                    child: Stack(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                              padding: const EdgeInsets.only(left: 30, top: 15),
-                              child: FutureBuilder(
-                                future: Client().getIp(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                        'Listening at ip Address: ${snapshot.data.toString()}');
-                                  } else {
-                                    return const CircularProgressIndicator();
-                                  }
-                                },
-                              )),
+      body:
+          teamController.connectedTeams.value == teamController.teams.length &&
+                  teamController.connectedTeams.value != 0 &&
+                  !isLoading
+              ? Body(
+                  round: widget.round,
+                )
+              : Center(child: Obx(
+                  () {
+                    return getConnectingScreen();
+                  },
+                )),
+    );
+  }
+
+  Widget getConnectingScreen() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(30),
+      child: Container(
+        height: MediaQuery.of(context).size.height / 1.6,
+        width: MediaQuery.of(context).size.width / 1.62,
+        color: const Color.fromARGB(255, 206, 198, 247).withOpacity(0.5),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: kGrayColor,
+                  borderRadius: BorderRadius.circular(45),
+                ),
+                child: FutureBuilder(
+                  future: Client().getIp(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(
+                          'Listening at ip Address: ${snapshot.data.toString()}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            height: 200,
-                            width: 200,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: teamController.teams.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: teamController
-                                                .teams[index].status.value ==
-                                            'Pending'
-                                        ? Colors.red
-                                        : Colors.green,
-                                    child: FittedBox(
-                                      fit: BoxFit.contain,
-                                      child: Text(
-                                        teamController.teams[index].teamName,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
+              ),
+            ),
+            const Divider(
+              color: Colors.white,
+              thickness: 2,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Column(
+              children: [
+                Wrap(
+                  children: const [
+                    Text(
+                      'Waiting...',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    CircularProgressIndicator(
+                      strokeWidth: 5,
+                      color: Colors.black,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Teams remaining : ${teamController.teams.length - teamController.connectedTeams.value} ',
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 200,
+              width: 700,
+              //color: Colors.amber,
+              child: Center(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: teamController.teams.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundColor:
+                            teamController.teams[index].status.value ==
+                                    'Pending'
+                                ? Colors.red
+                                : Colors.green,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            " ${teamController.teams[index].teamName} ",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 23,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            children: [
-                              Wrap(
-                                children: const [
-                                  Text(
-                                    'Waiting...',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  CircularProgressIndicator()
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                  '${teamController.teams.length - teamController.connectedTeams.value} teams remaining',
-                                  style: const TextStyle(color: Colors.black))
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-            )),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

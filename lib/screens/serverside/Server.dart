@@ -33,12 +33,15 @@ class Server extends GetxController {
         teamsController.teams[i].status.value = 'Connected';
         teamsController.teams[i].socket = socket;
         teamsController.connectedTeams.value++;
+        socket.write(teamsController.teams[i].teamName);
         if (teamsController.teams.length ==
             teamsController.connectedTeams.value) {
-          broadCastMessage(questionController.round, '');
+          Future.delayed(const Duration(seconds: 5)).then((value) {
+            broadCastMessage(questionController.round, '');
+          });
         }
         // Get.back();
-        socket.write(teamsController.teams[i].teamName);
+
       }
     }
     if (!done) {
