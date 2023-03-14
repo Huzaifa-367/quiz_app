@@ -4,9 +4,9 @@ import 'package:quiz_app/controllers/ApisFunctions.dart';
 import 'package:quiz_app/controllers/EventsController.dart';
 import 'package:quiz_app/models/QuestionModel.dart' as q;
 import 'package:quiz_app/screens/score/score_screen.dart';
-
 import 'TeamsController.dart';
-
+import 'package:audioplayers/audioplayers.dart';
+import 'dart:io' show Platform;
 // We use get package for our state management
 
 class QuestionController extends GetxController
@@ -15,18 +15,19 @@ class QuestionController extends GetxController
 
   AnimationController? animationController;
   Animation? _animation;
+  final AudioPlayer _assetsAudioPlayer = AudioPlayer();
   String? round;
   // so that we can access our animation outside
   Animation get animation => _animation!;
-
+  String ipAddress = "";
   late PageController _pageController;
   PageController get pageController => _pageController;
   // static int ongoingEventId = 7;
-
-  late List<q.Question> questions = [];
-
-  bool _isAnswered = false;
-  bool get isAnswered => _isAnswered;
+  Rx<Color> progressColor = Colors.green.obs;
+  late RxList questions = [].obs;
+  RxBool isOptionsDisabled = false.obs;
+  final RxBool _isAnswered = false.obs;
+  RxBool get isAnswered => _isAnswered;
 
   late String _correctAns;
   String get correctAns => _correctAns;
@@ -36,7 +37,7 @@ class QuestionController extends GetxController
   List<q.Question> allQuestions = [];
   getQuestions(r) async {
     if (allQuestions.isEmpty) {
-      allQuestions = await getQuestionss();
+      allQuestions = await getQuestionss(eventId);
       await TeamsController().getTeamsDetail();
     }
     if (round == 'rapid') {
@@ -44,7 +45,7 @@ class QuestionController extends GetxController
     } else if (round == 'buzzer') {
       animationController!.duration = const Duration(seconds: 5);
     }
-    questions = allQuestions
+    questions.value = allQuestions
         .where(
             (element) => element.type.toLowerCase().contains(round.toString()))
         .toList();
@@ -66,10 +67,22 @@ class QuestionController extends GetxController
     // Our animation duration is 60 s
     // so our plan is to fill the progress bar within 60s
     animationController = AnimationController(
-        duration: Duration(seconds: round != 'rapid' ? 60 : 120), vsync: this);
+        duration: Duration(seconds: round != 'rapid' ? 60 : 120), vsync: this)
+      ..addListener(() {
+        if (animationController!.value == 10 && Platform.isWindows) {
+          playTimerSound();
+        }
+        if (animationController!.value == 10) {
+          progressColor.value = Colors.red;
+        } else if (animationController!.duration!.inSeconds / 2 ==
+            animationController!.value) {
+          progressColor.value = Colors.amberAccent[700]!;
+        }
+      });
     _animation = Tween<double>(begin: 1, end: 0).animate(animationController!)
       ..addListener(() {
         // update like setState
+
         update();
       });
     // start our animation
@@ -93,7 +106,7 @@ class QuestionController extends GetxController
 
   void checkAns(q.Question question, String selectedIndex) {
     // because once user press any option then it will run
-    _isAnswered = true;
+    _isAnswered.value = true;
     _correctAns = question.answer.trim();
     _selectedAns = selectedIndex.trim();
     if (animationController != null) {
@@ -101,6 +114,7 @@ class QuestionController extends GetxController
     }
     update();
     if (_correctAns == _selectedAns) {
+      playCorrectSong();
       if (round == 'rapid') {
         teamController.teams[eventController.team].rapidRound =
             teamController.teams[eventController.team].rapidRound! + 1;
@@ -112,23 +126,28 @@ class QuestionController extends GetxController
             teamController.teams[eventController.team].mcqRound! + 1;
       }
     } else if (round == 'buzzer') {
+      playWrongSong();
       teamController.teams[eventController.team].buzzerWrong =
           teamController.teams[eventController.team].buzzerWrong! + 1;
+    } else {
+      playWrongSong();
     }
 
     // It will stop the counter
 
     // Once user select an ans after 3s it will go to the next qn
-    Future.delayed(const Duration(seconds: 3), () {
-      nextQuestion();
-    });
+    // Future.delayed(const Duration(seconds: 3), () {
+    //   nextQuestion();
+    // });
   }
 
   void nextQuestion() {
     if (_questionNumber.value != questions.length) {
-      _isAnswered = false;
+      isOptionsDisabled.value = false;
+      _isAnswered.value = false;
+      progressColor.value = Colors.green;
       _pageController.nextPage(
-          duration: const Duration(milliseconds: 250), curve: Curves.ease);
+          duration: const Duration(milliseconds: 250), curve: Curves.bounceIn);
 
       // Reset the counter
       if (round == 'rapid') {
@@ -139,20 +158,56 @@ class QuestionController extends GetxController
         animationController!.stop();
       } else {
         animationController!.reset();
-        animationController!.forward().whenComplete(nextQuestion);
+        if (Platform.isWindows) {
+          animationController!.forward().whenComplete(nextQuestion);
+        } else {
+          animationController!.forward().whenComplete(() {
+            isOptionsDisabled.value = true;
+          });
+        }
       }
       // Then start it again
       // Once timer is finish go to the next
-
     } else {
       // Get package provide us simple way to naviigate another page
       Get.to(ScoreScreen());
     }
   }
 
+  playWrongSong() {
+    //_assetsAudioPlayer.open(Audio("assets/icons/Songs/Wrong.wav"));
+    _assetsAudioPlayer.play(AssetSource('icons/Songs/Wrong.wav'));
+  }
+
+  playCorrectSong() {
+    _assetsAudioPlayer.play(
+      AssetSource('icons/Songs/correct.wav'),
+      //volume: 100
+    );
+    // _assetsAudioPlayer.open(Audio("assets/icons/Songs/correct.wav"));
+    // _assetsAudioPlayer.play();
+  }
+
+  playBuzzer() {}
+  playBuzzerPressed() {
+    // _assetsAudioPlayer.open(Audio("assets/icons/Songs/BuzzerPressed.wav"));
+    // _assetsAudioPlayer.play();
+  }
+
+  playTimerSound() {
+    _assetsAudioPlayer.play(AssetSource("icons/Songs/countDown.wav"));
+  }
+
+  previousQuestion() {
+    if (_questionNumber.value >= 0) {
+      _pageController.previousPage(
+          duration: const Duration(milliseconds: 250), curve: Curves.ease);
+    }
+  }
+
   var eventController = Get.put(EventController());
   var teamController = Get.put(TeamsController());
-  void updateTheQnNum(int index) async {
+  void updateTheQnNum() async {
     if (round == 'mcq') {
       eventController.teamName.value =
           teamController.teams[eventController.team].teamName.toString();
@@ -183,6 +238,5 @@ class QuestionController extends GetxController
             teamController.teams[1].teamName.toString();
       }
     }
-    _questionNumber.value = index + 1;
   }
 }

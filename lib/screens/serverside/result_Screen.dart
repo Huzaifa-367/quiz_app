@@ -156,7 +156,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 Text(
                   "Team A",
-                  style: Theme.of(context).textTheme.headline3?.copyWith(
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: const Color(0xffFFBA07),
                       fontWeight: FontWeight.bold),
                 ),

@@ -10,7 +10,7 @@ import 'package:quiz_app/screens/serverside/dashboard.dart';
 
 class ServerQuizScreen extends StatefulWidget {
   late String round;
-  ServerQuizScreen(this.round);
+  ServerQuizScreen(this.round, {super.key});
 
   @override
   State<ServerQuizScreen> createState() => _ServerQuizScreenState();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
+import 'package:quiz_app/screens/quiz/Client.dart';
 
 import 'package:quiz_app/screens/quiz/components/option.dart';
 
@@ -13,13 +14,19 @@ class QuestionCard extends StatelessWidget {
     // it means we have to pass this
     @required this.question,
   }) : super(key: key);
-
+  var quesController = Get.find<QuestionController>();
+  var clientController = Get.find<Client>();
   Question? question;
   Rx<Color> QBColor =
       const Color.fromARGB(255, 206, 198, 247).withOpacity(.6).obs;
   @override
   Widget build(BuildContext context) {
-    QuestionController controller = Get.put(QuestionController());
+    QuestionController controller;
+    try {
+      controller = Get.find<QuestionController>();
+    } catch (e) {
+      controller = Get.put(QuestionController());
+    }
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       padding: const EdgeInsets.all(kDefaultPadding),
@@ -52,7 +59,7 @@ class QuestionCard extends StatelessWidget {
                       question!.ques,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(color: Colors.black),
                     ),
                   ),
@@ -64,6 +71,8 @@ class QuestionCard extends StatelessWidget {
               index: 0,
               text: question!.opt1,
               press: () {
+                clientController
+                    .sendMessage("#1#${quesController.questionNumber.value}");
                 controller.checkAns(question!, question!.opt1);
               },
             ),
@@ -71,6 +80,8 @@ class QuestionCard extends StatelessWidget {
               index: 1,
               text: question!.opt2,
               press: () {
+                clientController
+                    .sendMessage("#2#${quesController.questionNumber.value}");
                 controller.checkAns(question!, question!.opt2);
               },
             ),
@@ -78,6 +89,8 @@ class QuestionCard extends StatelessWidget {
               index: 2,
               text: question!.opt3,
               press: () {
+                clientController
+                    .sendMessage("#3#${quesController.questionNumber.value}");
                 controller.checkAns(question!, question!.opt3);
               },
             ),
@@ -85,6 +98,8 @@ class QuestionCard extends StatelessWidget {
               index: 3,
               text: question!.opt4,
               press: () {
+                clientController
+                    .sendMessage("#4#${quesController.questionNumber.value}");
                 controller.checkAns(question!, question!.opt4);
               },
             )

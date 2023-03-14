@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/controllers/EventsController.dart';
 import 'package:quiz_app/controllers/TeamsController.dart';
@@ -41,10 +40,25 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     // So that we have acccess our controller
+    QuestionController questionController;
+    TeamsController teamsController;
+    EventController eventController;
+    try {
+      questionController = Get.find<QuestionController>();
+    } catch (e) {
+      questionController = Get.put(QuestionController());
+    }
+    try {
+      teamsController = Get.find<TeamsController>();
+    } catch (e) {
+      teamsController = Get.put(TeamsController());
+    }
+    try {
+      eventController = Get.find<EventController>();
+    } catch (e) {
+      eventController = Get.put(EventController());
+    }
 
-    QuestionController questionController = Get.put(QuestionController());
-    TeamsController teamsController = Get.put(TeamsController());
-    EventController eventController = Get.put(EventController());
     return !isLoading
         ? Scaffold(
             backgroundColor: Colors.white,
@@ -71,7 +85,7 @@ class _BodyState extends State<Body> {
                                   "Question ${questionController.questionNumber.value}",
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4!
+                                  .headlineMedium!
                                   .copyWith(color: kSecondaryColor),
                               children: [
                                 TextSpan(
@@ -79,7 +93,7 @@ class _BodyState extends State<Body> {
                                       "/${questionController.questions.length}",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline5!
+                                      .headlineSmall!
                                       .copyWith(color: kSecondaryColor),
                                 ),
                               ],
@@ -87,30 +101,30 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: SizedBox(
-                          height: 40,
-                          width: 80,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 5,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 206, 198, 247)
-                                      .withOpacity(.9),
-                            ),
-                            onPressed: controller.nextQuestion,
-                            child: Text(
-                              "Skip",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 10.0),
+                      //   child: SizedBox(
+                      //     height: 40,
+                      //     width: 80,
+                      //     child: ElevatedButton(
+                      //       style: ElevatedButton.styleFrom(
+                      //         elevation: 5,
+                      //         backgroundColor:
+                      //             const Color.fromARGB(255, 206, 198, 247)
+                      //                 .withOpacity(.9),
+                      //       ),
+                      //       onPressed: controller.nextQuestion,
+                      //       child: Text(
+                      //         "Skip",
+                      //         style: GoogleFonts.montserrat(
+                      //           fontSize: 20,
+                      //           fontWeight: FontWeight.bold,
+                      //           color: Colors.black,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(
                         width: 20,
                       )
@@ -127,7 +141,7 @@ class _BodyState extends State<Body> {
                           // Block swipe to next qn
                           physics: const NeverScrollableScrollPhysics(),
                           controller: questionController.pageController,
-                          onPageChanged: questionController.updateTheQnNum,
+                          // onPageChanged: questionController.updateTheQnNum,
                           itemCount: questionController.questions.length,
                           itemBuilder: (context, index) => QuestionCard(
                               question: questionController.questions[index]),

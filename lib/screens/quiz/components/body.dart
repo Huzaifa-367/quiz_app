@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:quiz_app/screens/quiz/components/progress_bar.dart';
 
-import 'progress_bar.dart';
 import 'question_card.dart';
 
 class Body extends StatelessWidget {
@@ -15,7 +15,12 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // So that we have acccess our controller
-    QuestionController questionController = Get.put(QuestionController());
+    QuestionController questionController;
+    try {
+      questionController = Get.find<QuestionController>();
+    } catch (e) {
+      questionController = Get.put(QuestionController());
+    }
     return Stack(
       children: [
         SvgPicture.asset("assets/icons/bg.svg", fit: BoxFit.fill),
@@ -38,14 +43,14 @@ class Body extends StatelessWidget {
                           "Question ${questionController.questionNumber.value}",
                       style: Theme.of(context)
                           .textTheme
-                          .headline4!
+                          .headlineMedium!
                           .copyWith(color: kSecondaryColor),
                       children: [
                         TextSpan(
                           text: "/${questionController.questions.length}",
                           style: Theme.of(context)
                               .textTheme
-                              .headline5!
+                              .headlineSmall!
                               .copyWith(color: kSecondaryColor),
                         ),
                       ],
@@ -60,7 +65,7 @@ class Body extends StatelessWidget {
                   // Block swipe to next qn
                   physics: const NeverScrollableScrollPhysics(),
                   controller: questionController.pageController,
-                  onPageChanged: questionController.updateTheQnNum,
+                  //onPageChanged: questionController.updateTheQnNum,
                   itemCount: questionController.questions.length,
                   itemBuilder: (context, index) => QuestionCard(
                       question: questionController.questions[index]),

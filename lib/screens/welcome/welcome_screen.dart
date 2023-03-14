@@ -5,6 +5,8 @@ import 'package:quiz_app/screens/quiz/Client.dart';
 
 class WelcomeScreen extends StatelessWidget {
   Client client = Get.put(Client());
+
+  WelcomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
     client.getIp();
@@ -31,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
                         child: Text("Quiz App",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4!
+                                .headlineMedium!
                                 .copyWith(
                                     color: Colors.deepPurple,
                                     fontWeight: FontWeight.bold,
@@ -48,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
                           child: Text("Let's Play Quiz,",
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4!
+                                  .headlineMedium!
                                   .copyWith(
                                       color: Colors.black54,
                                       fontWeight: FontWeight.bold,
@@ -63,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
                           child: Text("Enter your informations below",
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline4!
+                                  .headlineMedium!
                                   .copyWith(color: Colors.black, fontSize: 20)),
                         ),
                       ),
@@ -137,7 +139,7 @@ class WelcomeScreen extends StatelessWidget {
                             "Lets Start Quiz",
                             style: Theme.of(context)
                                 .textTheme
-                                .button!
+                                .labelLarge!
                                 .copyWith(color: Colors.black, fontSize: 30),
                           ),
                         ),

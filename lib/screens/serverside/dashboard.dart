@@ -7,6 +7,8 @@ import 'package:quiz_app/screens/serverside/result_Screen.dart';
 import 'package:quiz_app/screens/serverside/widgets/eventcard.dart';
 import 'package:quiz_app/screens/serverside/widgets/eventlist.dart';
 
+import 'Server.dart';
+
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
 
@@ -15,18 +17,30 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  var controller = Get.put(EventController());
-  //var serverController = Get.put(Server());
+  var controller;
+  late Server serverController;
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
+    try {
+      controller = Get.find<EventController>();
+    } catch (e) {
+      controller = Get.put(EventController());
+    }
+    try {
+      serverController = Get.find<Server>();
+    } catch (e) {
+      serverController = Get.put(Server());
+    }
+
     getEvents();
   }
 
   getEvents() async {
-    await controller.getEventsList();
+    // await controller.getEventsList();
+    //serverController.startListening();
   }
 
   @override

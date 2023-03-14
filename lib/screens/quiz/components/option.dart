@@ -21,7 +21,7 @@ class Option extends StatelessWidget {
         init: QuestionController(),
         builder: (qnController) {
           Color getTheRightColor() {
-            if (qnController.isAnswered) {
+            if (qnController.isAnswered.value) {
               if (text!.trim() == qnController.correctAns) {
                 return kGreenColor;
               } else if (text!.trim() == qnController.selectedAns &&
@@ -37,14 +37,16 @@ class Option extends StatelessWidget {
           }
 
           return InkWell(
-            onTap: press,
+            onTap: qnController.isOptionsDisabled.value ? () {} : press,
             child: Container(
               margin: const EdgeInsets.only(top: kDefaultPadding),
               padding: const EdgeInsets.all(kDefaultPadding),
               decoration: BoxDecoration(
-                border: Border.all(color: getTheRightColor()),
-                borderRadius: BorderRadius.circular(15),
-              ),
+                  border: Border.all(color: getTheRightColor()),
+                  borderRadius: BorderRadius.circular(15),
+                  color: qnController.isOptionsDisabled.value
+                      ? Colors.grey
+                      : null),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

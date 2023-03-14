@@ -20,7 +20,12 @@ class QuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    QuestionController controller = Get.put(QuestionController());
+    QuestionController controller;
+    try {
+      controller = Get.find<QuestionController>();
+    } catch (e) {
+      controller = Get.put(QuestionController());
+    }
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       padding: const EdgeInsets.all(kDefaultPadding * .52),
@@ -50,7 +55,7 @@ class QuestionCard extends StatelessWidget {
                     question!.ques,
                     style: Theme.of(context)
                         .textTheme
-                        .headline6!
+                        .titleLarge!
                         .copyWith(color: Colors.black),
                   ),
                 );
