@@ -71,36 +71,44 @@ class QuestionCard extends StatelessWidget {
               index: 0,
               text: question!.opt1,
               press: () {
-                clientController
-                    .sendMessage("#1#${quesController.questionNumber.value}");
-                controller.checkAns(question!, question!.opt1);
+                if (!controller.isAnswered.value) {
+                  clientController
+                      .sendMessage("#1#${quesController.questionNumber.value}");
+                  controller.checkAns(question!, question!.opt1);
+                }
               },
             ),
             Option(
               index: 1,
               text: question!.opt2,
               press: () {
-                clientController
-                    .sendMessage("#2#${quesController.questionNumber.value}");
-                controller.checkAns(question!, question!.opt2);
+                if (!controller.isAnswered.value) {
+                  clientController
+                      .sendMessage("#2#${quesController.questionNumber.value}");
+                  controller.checkAns(question!, question!.opt2);
+                }
               },
             ),
             Option(
               index: 2,
               text: question!.opt3,
               press: () {
-                clientController
-                    .sendMessage("#3#${quesController.questionNumber.value}");
-                controller.checkAns(question!, question!.opt3);
+                if (!controller.isAnswered.value) {
+                  clientController
+                      .sendMessage("#3#${quesController.questionNumber.value}");
+                  controller.checkAns(question!, question!.opt3);
+                }
               },
             ),
             Option(
               index: 3,
               text: question!.opt4,
               press: () {
-                clientController
-                    .sendMessage("#4#${quesController.questionNumber.value}");
-                controller.checkAns(question!, question!.opt4);
+                if (!controller.isAnswered.value) {
+                  clientController
+                      .sendMessage("#4#${quesController.questionNumber.value}");
+                  controller.checkAns(question!, question!.opt4);
+                }
               },
             )
           ],

@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:synchronized/synchronized.dart';
 import 'package:quiz_app/controllers/EventsController.dart';
 import 'package:quiz_app/controllers/TeamsController.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
@@ -9,6 +9,7 @@ import 'package:quiz_app/models/TeamModel.dart';
 import 'package:quiz_app/screens/quiz/Client.dart';
 
 class Server extends GetxController {
+  final lock = Lock();
   RxString pressedBy = "-1".obs;
   Socket? adminSocket;
   static String connectedIp = "";
@@ -84,23 +85,10 @@ class Server extends GetxController {
               teamsController.connectedTeams.value) {
             setTeam(pressedBy.split(':')[0], player);
           } else if (pressedBy.value.startsWith('#')) {
-            var res = pressedBy.value.split('#').toList();
-
-            // questionController.questions[0].opt1;
-            String option = res[1] == "1"
-                ? questionController.questions.value[int.parse(res[2]) - 1].opt1
-                : res[1] == "2"
-                    ? questionController.questions[int.parse(res[2]) - 1].opt2
-                    : res[1] == "3"
-                        ? questionController
-                            .questions[int.parse(res[2]) - 1].opt3
-                        : questionController
-                            .questions[int.parse(res[2]) - 1].opt4;
-            questionController.checkAns(
-                questionController.questions[int.parse(res[2]) - 1], option);
+            validateAnwer();
           } else if (!pressedBy.contains(':')) {
             broadCastMessage(pressedBy.value, player);
-            Future.delayed(const Duration(seconds: 1)).then((value) => {
+            Future.delayed(const Duration(microseconds: 10)).then((value) => {
                   if (pressedBy.value == "N")
                     {
                       questionController.questionNumber.value++,
@@ -170,6 +158,30 @@ class Server extends GetxController {
     }
   }
 
+  void validateAnwer() async {
+    try {
+      lock.synchronized(() {
+        if (pressedBy.value != "") {
+          broadCastMessage(pressedBy.value, '');
+          var res = pressedBy.value.split('#').toList();
+
+          // questionController.questions[0].opt1;
+          String option = res[1] == "1"
+              ? questionController.questions.value[int.parse(res[2]) - 1].opt1
+              : res[1] == "2"
+                  ? questionController.questions[int.parse(res[2]) - 1].opt2
+                  : res[1] == "3"
+                      ? questionController.questions[int.parse(res[2]) - 1].opt3
+                      : questionController
+                          .questions[int.parse(res[2]) - 1].opt4;
+          questionController.checkAns(
+              questionController.questions[int.parse(res[2]) - 1], option);
+          pressedBy.value = "";
+        }
+      });
+    } catch (e) {}
+  }
+
   setDefault(player) {
     for (int i = 0; i < teamsController.teams.length; i++) {
       if (teamsController.teams[i] == player) {
@@ -183,17 +195,17 @@ class Server extends GetxController {
   sendMesage(element, message) async {
     try {
       element.socket!.write(message);
-      Future.delayed(const Duration(microseconds: 10));
     } catch (e) {
       print(e);
     }
   }
 
-  broadCastMessage(message, player) {
+  broadCastMessage(String message, player) {
     try {
+      var encodedMessage = message.codeUnits.toList();
       //adminSocket!.write(message);
-      for (var element in teamsController.teams) {
-        sendMesage(element, message);
+      for (var element in connectedTeams) {
+        element.add(encodedMessage);
         try {} catch (e) {
           print(e);
         }

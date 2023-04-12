@@ -98,16 +98,18 @@ class Client extends GetxController {
             }
           } else if (pressedBy.value.startsWith('#')) {
             var res = pressedBy.value.split('#').toList();
-
+            q.questionNumber.value = int.parse(res[1]);
             // questionController.questions[0].opt1;
-            String option = res[1] == "1"
-                ? q.questions[int.parse(res[2])].opt1
-                : res[1] == "2"
-                    ? q.questions[int.parse(res[2])].opt2
-                    : res[1] == "3"
-                        ? q.questions[int.parse(res[2])].opt3
-                        : q.questions[int.parse(res[2])].opt4;
-            q.checkAns(q.questions[int.parse(res[2])], option);
+            if (nameController.value.text != "admin") {
+              String option = res[1] == "1"
+                  ? q.questions[int.parse(res[2]) - 1].opt1
+                  : res[1] == "2"
+                      ? q.questions[int.parse(res[2]) - 1].opt2
+                      : res[1] == "3"
+                          ? q.questions[int.parse(res[2]) - 1].opt3
+                          : q.questions[int.parse(res[2]) - 1].opt4;
+              q.checkAns(q.questions[int.parse(res[2]) - 1], option);
+            }
           } else {
             try {
               pressedBy.value = String.fromCharCodes(data);
