@@ -39,10 +39,16 @@ dependencies:
   flutter_svg: ^1.1.6
   get: ^4.6.5
   google_fonts: ^3.0.1
+  
   cached_network_image: ^3.2.3
   confetti: ^0.7.0
   dio: ^4.0.6
   provider: ^6.0.5
+  clay_containers: ^0.3.2
+  audioplayers: ^3.0.1
+  pluto_grid: ^6.0.4
+  flutter_rounded_date_picker: ^3.0.2
+  
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +76,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/
+    - assets/icons/Songs/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

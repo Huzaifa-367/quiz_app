@@ -7,6 +7,8 @@ import 'package:quiz_app/screens/serverside/result_Screen.dart';
 import 'package:quiz_app/screens/serverside/widgets/eventcard.dart';
 import 'package:quiz_app/screens/serverside/widgets/eventlist.dart';
 
+import 'Server.dart';
+
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
 
@@ -15,18 +17,24 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  var controller = Get.put(EventController());
-  //var serverController = Get.put(Server());
+  var controller;
+  late Server serverController;
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
+
+    controller = Get.find<EventController>();
+
+    serverController = Get.find<Server>();
+
     getEvents();
   }
 
   getEvents() async {
-    await controller.getEventsList();
+    // await controller.getEventsList();
+    //serverController.startListening();
   }
 
   @override
@@ -46,39 +54,45 @@ class _DashBoardState extends State<DashBoard> {
                     height: MediaQuery.of(context).size.height * 0.18,
                     //width: MediaQuery.of(context).size.,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text(
-                          'Shahid',
-                          style: TextStyle(color: Colors.green),
+                        Container(
+                          height: 250,
+                          width: 250,
+                          decoration: const BoxDecoration(
+                              // color: Colors.black,
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/icons/SocietyLogo.png'))),
                         ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: TextFormField(
-                              style: const TextStyle(color: Colors.grey),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color:
-                                          Color.fromARGB(218, 255, 255, 255)),
-                                  borderRadius: BorderRadius.circular(15.0),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.15),
+                          child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: TextFormField(
+                                style: const TextStyle(color: Colors.grey),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color:
+                                            Color.fromARGB(218, 255, 255, 255)),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  suffixIcon: IconButton(
+                                    color: Colors.grey,
+                                    icon: const Icon(Icons.search),
+                                    onPressed: () {},
+                                  ),
+                                  hintText: 'Search an event...',
+                                  hintStyle:
+                                      const TextStyle(color: Colors.grey),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
                                 ),
-                                suffixIcon: IconButton(
-                                  color: Colors.grey,
-                                  icon: const Icon(Icons.search),
-                                  onPressed: () {},
-                                ),
-                                hintText: 'Search an event...',
-                                hintStyle: const TextStyle(color: Colors.grey),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                              ),
-                            )),
-                        const Text(
-                          'Huzaifa',
-                          style: TextStyle(color: Colors.green),
-                        )
+                              )),
+                        ),
                       ],
                     ),
                   ),
@@ -194,9 +208,17 @@ class _DashBoardState extends State<DashBoard> {
           SizedBox(
               height: MediaQuery.of(context).size.height * 0.65,
               child: const RestaurantList()),
-          const SizedBox(
+          SizedBox(
             height: 20,
-          )
+            child: Obx(() => Text(
+                  Get.find<EventController>()
+                      .eventssList
+                      .value
+                      .length
+                      .toString(),
+                  style: const TextStyle(color: Colors.red),
+                )),
+          ),
         ],
       ),
     );
