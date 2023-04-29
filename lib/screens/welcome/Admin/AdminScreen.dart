@@ -16,9 +16,9 @@ class AdminScreen extends StatefulWidget {
 }
 
 class _AdminScreenState extends State<AdminScreen> {
-  var clientController = Get.put(Client());
-  var eventController = Get.put(EventController());
-  var quesController = Get.put(QuestionController());
+  var clientController = Get.find<Client>();
+  var eventController = Get.find<EventController>();
+  var quesController = Get.find<QuestionController>();
   @override
   void initState() {
     // TODO: implement initState

@@ -17,8 +17,8 @@ class ServerQuizScreen extends StatefulWidget {
 }
 
 class _ServerQuizScreenState extends State<ServerQuizScreen> {
-  var serverController = Get.put(Server());
-  var teamController = Get.put(TeamsController());
+  var serverController = Get.find<Server>();
+  var teamController = Get.find<TeamsController>();
   @override
   void initState() {
     super.initState();
@@ -30,7 +30,7 @@ class _ServerQuizScreenState extends State<ServerQuizScreen> {
     serverController.startListening();
   }
 
-  QuestionController controller = Get.put(QuestionController());
+  QuestionController controller = Get.find<QuestionController>();
   getqus() async {
     await controller.getQuestions(widget.round);
 
@@ -95,118 +95,121 @@ class _ServerQuizScreenState extends State<ServerQuizScreen> {
         height: MediaQuery.of(context).size.height / 1.6,
         width: MediaQuery.of(context).size.width / 1.62,
         color: const Color.fromARGB(255, 206, 198, 247).withOpacity(0.5),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: kGrayColor,
-                  borderRadius: BorderRadius.circular(45),
-                ),
-                child: FutureBuilder(
-                  future: Client().getIp(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Text(
-                          'Listening at ip Address: ${snapshot.data.toString()}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                ),
-              ),
-            ),
-            const Divider(
-              color: Colors.white,
-              thickness: 2,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Column(
-              children: [
-                Wrap(
-                  children: const [
-                    Text(
-                      'Waiting...',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    CircularProgressIndicator(
-                      strokeWidth: 5,
-                      color: Colors.black,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Teams remaining : ${teamController.teams.length - teamController.connectedTeams.value} ',
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700,
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: kGrayColor,
+                    borderRadius: BorderRadius.circular(45),
                   ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 200,
-              width: 700,
-              //color: Colors.amber,
-              child: Center(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: teamController.teams.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: CircleAvatar(
-                        radius: 60,
-                        backgroundColor:
-                            teamController.teams[index].status.value ==
-                                    'Pending'
-                                ? Colors.red
-                                : Colors.green,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
+                  child: FutureBuilder(
+                    future: Client().getIp(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.all(15.0),
                           child: Text(
-                            " ${teamController.teams[index].teamName} ",
+                            'Listening at ip Address: ${snapshot.data.toString()}',
                             style: const TextStyle(
                               color: Colors.black,
-                              fontSize: 23,
+                              fontSize: 25,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+              const Divider(
+                color: Colors.white,
+                thickness: 2,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Column(
+                children: [
+                  Wrap(
+                    children: const [
+                      Text(
+                        'Waiting...',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      CircularProgressIndicator(
+                        strokeWidth: 5,
+                        color: Colors.black,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Teams remaining : ${teamController.teams.length - teamController.connectedTeams.value} ',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 200,
+                width: 700,
+                //color: Colors.amber,
+                child: Center(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: teamController.teams.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: CircleAvatar(
+                          radius: 60,
+                          backgroundColor:
+                              teamController.teams[index].status.value ==
+                                      'Pending'
+                                  ? Colors.red
+                                  : Colors.green,
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: Text(
+                              " ${teamController.teams[index].teamName} ",
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 23,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -22,11 +22,9 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     QuestionController controller;
-    try {
-      controller = Get.find<QuestionController>();
-    } catch (e) {
-      controller = Get.put(QuestionController());
-    }
+
+    controller = Get.find<QuestionController>();
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       padding: const EdgeInsets.all(kDefaultPadding),

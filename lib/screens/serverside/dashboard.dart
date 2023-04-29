@@ -24,16 +24,10 @@ class _DashBoardState extends State<DashBoard> {
     // TODO: implement initState
 
     super.initState();
-    try {
-      controller = Get.find<EventController>();
-    } catch (e) {
-      controller = Get.put(EventController());
-    }
-    try {
-      serverController = Get.find<Server>();
-    } catch (e) {
-      serverController = Get.put(Server());
-    }
+
+    controller = Get.find<EventController>();
+
+    serverController = Get.find<Server>();
 
     getEvents();
   }
@@ -214,9 +208,17 @@ class _DashBoardState extends State<DashBoard> {
           SizedBox(
               height: MediaQuery.of(context).size.height * 0.65,
               child: const RestaurantList()),
-          const SizedBox(
+          SizedBox(
             height: 20,
-          )
+            child: Obx(() => Text(
+                  Get.find<EventController>()
+                      .eventssList
+                      .value
+                      .length
+                      .toString(),
+                  style: const TextStyle(color: Colors.red),
+                )),
+          ),
         ],
       ),
     );

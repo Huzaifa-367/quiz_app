@@ -4,7 +4,7 @@ import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/screens/quiz/Client.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  Client client = Get.put(Client());
+  Client client = Get.find<Client>();
 
   WelcomeScreen({super.key});
   @override

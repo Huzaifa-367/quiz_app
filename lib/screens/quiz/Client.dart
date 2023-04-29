@@ -17,7 +17,7 @@ class Client extends GetxController {
   RxString pressedBy = "-1".obs;
   Rx<TextEditingController> ipController = TextEditingController().obs;
   Rx<TextEditingController> nameController = TextEditingController().obs;
-  var controller = Get.put(QuestionController());
+  var controller = Get.find<QuestionController>();
 
   late Socket socket;
   late Stream broadCastStream;
@@ -67,7 +67,7 @@ class Client extends GetxController {
   }
 
   startListening() async {
-    var q = Get.put(QuestionController());
+    var q = Get.find<QuestionController>();
     try {
       if (nameController.value.text == "admin") {
         socket.write(nameController.value.text);

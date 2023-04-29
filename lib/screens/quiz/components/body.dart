@@ -16,11 +16,9 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     // So that we have acccess our controller
     QuestionController questionController;
-    try {
-      questionController = Get.find<QuestionController>();
-    } catch (e) {
-      questionController = Get.put(QuestionController());
-    }
+
+    questionController = Get.find<QuestionController>();
+
     return Stack(
       children: [
         SvgPicture.asset("assets/icons/bg.svg", fit: BoxFit.fill),

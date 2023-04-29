@@ -10,7 +10,7 @@ class ProgressBar extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  QuestionController controller = Get.put(QuestionController());
+  QuestionController controller = Get.find<QuestionController>();
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -4,15 +4,17 @@ import 'package:quiz_app/models/Event.dart';
 
 class EventController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  List<eventss> eventssList = [];
+  RxList eventssList = [].obs;
+  RxBool isLoading = true.obs;
   eventss? onGoingEvent;
   int team = 0;
 
   RxString teamName = "".obs;
 
   getEventsList() async {
-    eventssList = await getEventsLists();
-    return eventssList;
+    eventssList.value = await getEventsLists();
+    isLoading.value = false;
+    return eventssList.value;
     //notifyChildrens();
   }
 

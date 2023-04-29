@@ -20,7 +20,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  QuestionController controller = Get.put(QuestionController());
+  QuestionController controller = Get.find<QuestionController>();
   @override
   void initState() {
     // TODO: implement initState
@@ -43,21 +43,12 @@ class _BodyState extends State<Body> {
     QuestionController questionController;
     TeamsController teamsController;
     EventController eventController;
-    try {
-      questionController = Get.find<QuestionController>();
-    } catch (e) {
-      questionController = Get.put(QuestionController());
-    }
-    try {
-      teamsController = Get.find<TeamsController>();
-    } catch (e) {
-      teamsController = Get.put(TeamsController());
-    }
-    try {
-      eventController = Get.find<EventController>();
-    } catch (e) {
-      eventController = Get.put(EventController());
-    }
+
+    questionController = Get.find<QuestionController>();
+
+    teamsController = Get.find<TeamsController>();
+
+    eventController = Get.find<EventController>();
 
     return !isLoading
         ? Scaffold(

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:quiz_app/controllers/EventsController.dart';
 import 'package:quiz_app/controllers/TeamsController.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
 import 'package:quiz_app/models/Event.dart';
@@ -32,11 +33,9 @@ getQuestionss(eventId) async {
 
 getEventsLists() async {
   QuestionController controller;
-  try {
-    controller = Get.find<QuestionController>();
-  } catch (e) {
-    controller = Get.put(QuestionController());
-  }
+
+  controller = Get.find<QuestionController>();
+
   if (controller.ipAddress == "") {
     controller.ipAddress = await Client().getIp();
   }
@@ -54,6 +53,7 @@ getEventsLists() async {
   } catch (e) {
     print(e);
   }
+
   return events;
 }
 
@@ -80,7 +80,7 @@ getTeamsDetails() async {
   if (controller.ipAddress == "") {
     controller.ipAddress = await Client().getIp();
   }
-  var teams = Get.put(TeamsController());
+  var teams = Get.find<TeamsController>();
   try {
     var v = Get.find<QuestionController>();
 
@@ -99,4 +99,34 @@ getTeamsDetails() async {
     print(e);
   }
   return teams.teams;
+}
+
+saveEvent(eventss event) async {
+  try {
+    EventController eventController = Get.find<EventController>();
+    var controller = Get.find<QuestionController>();
+    var response = await Dio().post(
+        'http://${controller.ipAddress}/ScoringAppApis/api/event/saveEvent',
+        data: event.toJson(),
+        options: Options(headers: {'Content-type': 'application/json'}));
+    if (response.statusCode == 200) {
+      Get.back();
+      Get.showSnackbar(const GetSnackBar(
+        duration: Duration(seconds: 2),
+        message: 'Added successfully',
+        //titleText: Text('Added successfully'),
+      ));
+
+      eventController.eventssList.value.add(eventss.fromMap(response.data));
+
+      print('s');
+    } else {
+      Get.showSnackbar(const GetSnackBar(
+        duration: Duration(seconds: 2),
+        message: 'Failed to add',
+      ));
+    }
+  } catch (e) {
+    print(e);
+  }
 }

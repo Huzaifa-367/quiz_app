@@ -27,9 +27,9 @@ class Server extends GetxController {
     }
   }
 
-  var teamsController = Get.put(TeamsController());
-  var questionController = Get.put(QuestionController());
-  var eventController = Get.put(EventController());
+  var teamsController = Get.find<TeamsController>();
+  var questionController = Get.find<QuestionController>();
+  var eventController = Get.find<EventController>();
   setTeam(name, Socket socket) {
     bool done = false;
     for (int i = 0; i < teamsController.teams.length; i++) {

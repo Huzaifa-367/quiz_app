@@ -18,11 +18,9 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
-    try {
-      controller = Get.find<QuestionController>();
-    } catch (e) {
-      controller = Get.put(QuestionController());
-    }
+
+    controller = Get.find<QuestionController>();
+
     getQuestions();
   }
 
