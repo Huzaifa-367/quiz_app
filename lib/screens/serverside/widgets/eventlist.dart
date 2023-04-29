@@ -38,7 +38,7 @@ class _RestaurantListState extends State<RestaurantList> {
         child: Obx(() => controller.isLoading.value
             ? const CircularProgressIndicator()
             : GridView.builder(
-                itemCount: controller.eventssList.value.length + 1,
+                itemCount: controller.eventssList.length + 1,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: 1 / 0.8,
@@ -199,7 +199,7 @@ class _RestaurantListState extends State<RestaurantList> {
                         },
                         backgroundColor:
                             Colors.primaries[index % Colors.primaries.length],
-                        restaurant: controller.eventssList.value[index - 1],
+                        restaurant: controller.eventssList[index - 1],
                       ),
                     ),
                   );
@@ -221,8 +221,8 @@ class _RestaurantListState extends State<RestaurantList> {
           onPressed: (() {
             c.round = text.toLowerCase();
 
-            c.eventId = controller.eventssList.value[index].id;
-            controller.onGoingEvent = controller.eventssList.value[index];
+            c.eventId = controller.eventssList[index].id;
+            controller.onGoingEvent = controller.eventssList[index];
             Navigator.pushReplacement(context, MaterialPageRoute(
               builder: (context) {
                 return ServerQuizScreen(text.toLowerCase());
