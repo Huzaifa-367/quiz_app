@@ -137,7 +137,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   id: 0,
                                   dates: dateTime.toString().split(' ')[0],
                                   type: eventtype!,
-                                  status: 'Pending',
+                                  status: 'created',
                                   Tteams: int.parse(noOfTeams!));
                               await saveEvent(e);
                             }
