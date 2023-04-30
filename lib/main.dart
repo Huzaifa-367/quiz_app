@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       // ), // redesign  , list view of members (Done)
       //home: const DashBoard() //pop up design on add event (Done)
       //home: const AdminScreen(), //hide congratulation, mobile view, (Done)
-      home: const ResultScreen(score: 0),
+      home: const ResultScreen(score: 0), //UI Update (Done)
     );
   }
 }
