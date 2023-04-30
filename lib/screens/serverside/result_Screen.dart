@@ -181,7 +181,12 @@ class _ResultScreenState extends State<ResultScreen>
                       color: careem,
                       child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 40),
+                          padding: const EdgeInsets.only(
+                            top: 40,
+                            left: 10,
+                            right: 10,
+                            bottom: 10,
+                          ),
                           child: PlutoGrid(
                             mode: PlutoGridMode.readOnly,
                             configuration: PlutoGridConfiguration(
