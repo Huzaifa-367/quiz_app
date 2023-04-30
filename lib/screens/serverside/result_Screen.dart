@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:quiz_app/constants.dart';
 
 class ResultScreen extends StatefulWidget {
   final int score;
@@ -159,7 +160,7 @@ class _ResultScreenState extends State<ResultScreen>
     });
 
     return Scaffold(
-      backgroundColor: const Color(0xff14154F),
+      backgroundColor: Colors.white,
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -168,187 +169,309 @@ class _ResultScreenState extends State<ResultScreen>
             child: GridView.builder(
               itemCount: 3,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 20,
-                  childAspectRatio: 4.2 / 1.9,
-                  crossAxisCount: 2),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 20,
+                childAspectRatio: 4.2 / 1.9,
+                crossAxisCount: 2,
+              ),
               itemBuilder: (context, index) {
-                return Stack(children: [
-                  Card(
-                      color: Colors.teal[200],
+                return Stack(
+                  children: [
+                    Card(
+                      color: careem,
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: PlutoGrid(
-                              mode: PlutoGridMode.readOnly,
-                              configuration: PlutoGridConfiguration(
-                                style: PlutoGridStyleConfig(
-                                  gridBackgroundColor: Colors.transparent,
-                                  rowColor: Colors.transparent,
-                                  borderColor: Colors.black,
-                                  gridBorderColor: Colors.black,
-                                  gridBorderRadius: BorderRadius.circular(12),
-                                  //rowColor: btnColor,
-                                  columnTextStyle: const TextStyle(
-                                      fontWeight: FontWeight.w900),
-                                  cellTextStyle: const TextStyle(
-                                      fontWeight: FontWeight.w900),
-                                  activatedBorderColor: Colors.black,
-                                  enableGridBorderShadow: true,
+                            mode: PlutoGridMode.readOnly,
+                            configuration: PlutoGridConfiguration(
+                              style: PlutoGridStyleConfig(
+                                gridBackgroundColor: Colors.transparent,
+                                rowColor: Colors.transparent,
+                                borderColor: Colors.black,
+                                gridBorderColor: Colors.black,
+                                gridBorderRadius: BorderRadius.circular(12),
+                                //rowColor: btnColor,
+                                columnTextStyle: const TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black,
+                                ),
+                                cellTextStyle: const TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black,
+                                ),
+                                activatedBorderColor: Colors.black,
+                                enableGridBorderShadow: true,
+                              ),
+                            ),
+                            onChanged: (PlutoGridOnChangedEvent event) {},
+                            onLoaded: (PlutoGridOnLoadedEvent event) {},
+                            noRowsWidget: const Center(
+                              child: Text(
+                                'Scores will be!',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black,
                                 ),
                               ),
-                              onChanged: (PlutoGridOnChangedEvent event) {},
-                              onLoaded: (PlutoGridOnLoadedEvent event) {},
-                              noRowsWidget:
-                                  const Center(child: Text('Scores will be!')),
-                              columns: _columns,
-                              rows: _rows),
-                        ),
-                      )),
-                ]);
-              },
-            ),
-          ),
-          SlideTransition(
-            position: _offsetAnimation2,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * .25,
-              height: context.height * 0.7,
-              child: Column(
-                children: [
-                  const FittedBox(
-                    fit: BoxFit.fill,
-                    child: Text(
-                      "Congratulations!",
-                      style: TextStyle(
-                          fontSize: 40,
-                          color: Color(0xffFFBA07),
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: (0.05)),
-                    child: CircleAvatar(
-                      backgroundColor: const Color(0xff5A88B0),
-                      radius: 120,
-                      child: Image.asset("assets/icons/kupa.png"),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: FittedBox(
-                      child: Text(
-                        'Team Name'.tr,
-                        style: const TextStyle(
-                          fontSize: 50,
+                            ),
+                            columns: _columns,
+                            rows: _rows,
+                          ),
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ],
+                );
+              },
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Wrap(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SlideTransition(
-                  position: _offsetAnimation,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                            backgroundColor: const Color(0xff5A88B0),
-                            radius: 80,
-                            child: getImageBuilder(
-                                'https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg')),
-                        const Positioned(
-                            bottom: 10,
-                            left: 5,
-                            child: Text(
-                              'Muhammasd shahid',
-                              style: TextStyle(fontSize: 15),
-                            ))
-                      ],
+          SingleChildScrollView(
+            child: SlideTransition(
+              position: _offsetAnimation2,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * .65,
+                height: context.height * 0.9,
+                child: Column(
+                  children: [
+                    const FittedBox(
+                      fit: BoxFit.fill,
+                      child: Text(
+                        "Congratulations!",
+                        style: TextStyle(
+                            fontSize: 40,
+                            color: Color(0xffFFBA07),
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ),
-                SlideTransition(
-                  position: _offsetAnimation,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: const Color(0xff5A88B0),
-                          radius: 80,
-                          child: getImageBuilder(
-                              'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: (0.05)),
+                      child: CircleAvatar(
+                        backgroundColor: const Color(0xff5A88B0),
+                        radius: 120,
+                        child: Image.asset("assets/icons/kupa.png"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: FittedBox(
+                        child: Text(
+                          'Team Name'.tr,
+                          style: const TextStyle(
+                            fontSize: 40,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
-                        const Positioned(
-                            bottom: 10,
-                            left: 5,
-                            child: Text(
-                              'Muhammasd shahid',
-                              style: TextStyle(fontSize: 15),
-                            ))
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                SlideTransition(
-                  position: _offsetAnimation1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: const Color(0xff5A88B0),
-                          radius: 80,
-                          child: getImageBuilder(
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSR-dez27VzWPTKhNi5kQf-aNDxuBo1LQ1-Q&usqp=CAU'),
-                        ),
-                        const Positioned(
-                            bottom: 10,
-                            left: 5,
-                            child: Text(
-                              'Muhammasd shahid',
-                              style: TextStyle(fontSize: 15),
-                            ))
-                      ],
+                    FittedBox(
+                      fit: BoxFit.fill,
+                      child: Wrap(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SlideTransition(
+                            position: _offsetAnimation,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: const Color(0xff5A88B0),
+                                      radius: 80,
+                                      child: getImageBuilder(
+                                          'https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg'),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: careem,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromARGB(
+                                                255, 194, 192, 192),
+                                            blurRadius: 6.0,
+                                            spreadRadius: 2.0,
+                                            offset: Offset(0.0, 0.0),
+                                          )
+                                        ],
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Muhammasd shahid',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SlideTransition(
+                            position: _offsetAnimation,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: const Color(0xff5A88B0),
+                                      radius: 80,
+                                      child: getImageBuilder(
+                                          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg'),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: careem,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromARGB(
+                                                255, 194, 192, 192),
+                                            blurRadius: 6.0,
+                                            spreadRadius: 2.0,
+                                            offset: Offset(0.0, 0.0),
+                                          )
+                                        ],
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Muhammasd shahid',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SlideTransition(
+                            position: _offsetAnimation1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: const Color(0xff5A88B0),
+                                      radius: 80,
+                                      child: getImageBuilder(
+                                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSR-dez27VzWPTKhNi5kQf-aNDxuBo1LQ1-Q&usqp=CAU'),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: careem,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromARGB(
+                                                255, 194, 192, 192),
+                                            blurRadius: 6.0,
+                                            spreadRadius: 2.0,
+                                            offset: Offset(0.0, 0.0),
+                                          )
+                                        ],
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Muhammasd shahid',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SlideTransition(
+                            position: _offsetAnimation1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: const Color(0xff5A88B0),
+                                      radius: 80,
+                                      child: getImageBuilder(
+                                          'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: careem,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromARGB(
+                                                255, 194, 192, 192),
+                                            blurRadius: 6.0,
+                                            spreadRadius: 2.0,
+                                            offset: Offset(0.0, 0.0),
+                                          )
+                                        ],
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Muhammasd shahid',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                SlideTransition(
-                  position: _offsetAnimation1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: const Color(0xff5A88B0),
-                          radius: 80,
-                          child: getImageBuilder(
-                              'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'),
-                        ),
-                        const Positioned(
-                            bottom: 10,
-                            left: 5,
-                            child: Text(
-                              'Muhammasd shahid',
-                              style: TextStyle(fontSize: 15),
-                            ))
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           ConfettiWidget(

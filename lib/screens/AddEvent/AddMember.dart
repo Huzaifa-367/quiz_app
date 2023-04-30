@@ -26,6 +26,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: careem,
         title: Text(
           widget.event.type,
           style: const TextStyle(
