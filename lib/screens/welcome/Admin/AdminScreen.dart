@@ -28,7 +28,8 @@ class _AdminScreenState extends State<AdminScreen> {
   bool started = true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: Colors.white,
         // backgroundColor=Colors.white,
         extendBodyBehindAppBar: true,
@@ -48,7 +49,7 @@ class _AdminScreenState extends State<AdminScreen> {
               height: 40,
               width: 80,
               decoration: BoxDecoration(
-                color: kGrayColor,
+                color: careem,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: const Icon(
@@ -66,7 +67,8 @@ class _AdminScreenState extends State<AdminScreen> {
         body: Padding(
           padding: const EdgeInsets.all(20),
           child: Center(
-              child: Obx(() => !clientController.isAdminConnected.value
+            child: Obx(
+              () => !clientController.isAdminConnected.value
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,15 +84,21 @@ class _AdminScreenState extends State<AdminScreen> {
                             Text.rich(
                                 TextSpan(text: '', spellOut: true, children: [
                               TextSpan(
-                                  text: quesController.questionNumber.value
-                                      .toString(),
-                                  style: const TextStyle(
-                                      color: Colors.grey, fontSize: 20)),
+                                text: quesController.questionNumber.value
+                                    .toString(),
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                ),
+                              ),
                               TextSpan(
-                                  text:
-                                      "/${quesController.questions.value.length}",
-                                  style: const TextStyle(
-                                      color: Colors.red, fontSize: 20))
+                                text:
+                                    "/${quesController.questions.value.length}",
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                ),
+                              )
                             ])),
                           ],
                         ),
@@ -117,7 +125,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                   clientController.sendMessage("B");
                                 },
                                 child: ClayContainer(
-                                  color: Colors.white54,
+                                  color: careem,
                                   height: 150,
                                   width:
                                       MediaQuery.of(context).size.width * 0.42,
@@ -127,9 +135,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                   child: const Center(
                                       child: Padding(
                                     padding: EdgeInsets.only(
-                                      top: 20.0,
-                                      //right: 10
-                                    ),
+                                        bottom: 20.0, right: 10),
                                     child: FittedBox(
                                       fit: BoxFit.contain,
                                       child: Text(
@@ -143,6 +149,9 @@ class _AdminScreenState extends State<AdminScreen> {
                                   )),
                                 ),
                               ),
+                              const SizedBox(
+                                width: 5,
+                              ),
                               GestureDetector(
                                 onTap: () {
                                   if (quesController.questionNumber.value <
@@ -152,7 +161,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                   clientController.sendMessage("N");
                                 },
                                 child: ClayContainer(
-                                  color: Colors.white54,
+                                  color: careem,
                                   height: 150,
                                   width:
                                       MediaQuery.of(context).size.width * 0.42,
@@ -162,8 +171,8 @@ class _AdminScreenState extends State<AdminScreen> {
                                   child: const Center(
                                       child: Padding(
                                     padding: EdgeInsets.only(
-                                      top: 20.0,
-                                      //left: 10
+                                      bottom: 20.0,
+                                      left: 10,
                                     ),
                                     child: FittedBox(
                                       fit: BoxFit.contain,
@@ -180,7 +189,9 @@ class _AdminScreenState extends State<AdminScreen> {
                               ),
                             ],
                           ),
-
+                          const SizedBox(
+                            height: 5,
+                          ),
                           Row(
                             children: [
                               GestureDetector(
@@ -189,7 +200,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                   clientController.sendMessage("H");
                                 },
                                 child: ClayContainer(
-                                  color: Colors.white54,
+                                  color: careem,
                                   height: 150,
                                   width:
                                       MediaQuery.of(context).size.width * 0.42,
@@ -199,7 +210,8 @@ class _AdminScreenState extends State<AdminScreen> {
                                   child: const Center(
                                       child: Padding(
                                     padding: EdgeInsets.only(
-                                      top: 20.0, // right: 10
+                                      top: 20.0,
+                                      right: 10,
                                     ),
                                     child: FittedBox(
                                       fit: BoxFit.contain,
@@ -214,6 +226,9 @@ class _AdminScreenState extends State<AdminScreen> {
                                   )),
                                 ),
                               ),
+                              const SizedBox(
+                                width: 5,
+                              ),
                               GestureDetector(
                                 onTap: () {
                                   if (quesController.questionNumber.value <
@@ -223,7 +238,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                   clientController.sendMessage("Sk");
                                 },
                                 child: ClayContainer(
-                                  color: Colors.white54,
+                                  color: careem,
                                   height: 150,
                                   width:
                                       MediaQuery.of(context).size.width * 0.42,
@@ -234,7 +249,7 @@ class _AdminScreenState extends State<AdminScreen> {
                                       child: Padding(
                                     padding: EdgeInsets.only(
                                       top: 20.0,
-                                      // left: 10
+                                      left: 10,
                                     ),
                                     child: FittedBox(
                                       fit: BoxFit.contain,
@@ -265,18 +280,41 @@ class _AdminScreenState extends State<AdminScreen> {
                           //       clientController.sendMessage("B");
                           //     },
                           //     child: const Text('Back')),
-                          // const SizedBox(
-                          //   height: 21,
-                          // ),
-                          // ElevatedButton(
-                          //     onPressed: () {
-                          //       clientController.sendMessage("S");
-                          //     },
-                          //     child: const Text('Skip')),
-                        }
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: careem,
+                              fixedSize: const Size(150, 40),
+                            ),
+                            onPressed: () {
+                              clientController.sendMessage("S");
+                            },
+                            child: const Text(
+                              'Skip',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        },
                       ],
                     )
-                  : const Text('Disconnected'))),
-        ));
+                  : const Text(
+                      'Disconnected',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

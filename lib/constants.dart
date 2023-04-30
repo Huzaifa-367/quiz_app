@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kSecondaryColor = Color(0xFF8B94BC);
+const careem = Color.fromARGB(255, 246, 246, 241);
 const kGreenColor = Color(0xFF6AC259);
 const kRedColor = Color(0xFFE92E30);
 const kGrayColor = Color.fromARGB(255, 154, 182, 248);
@@ -23,7 +24,7 @@ getTextInputField(controller, hint) {
       controller: controller.value,
       decoration: InputDecoration(
         filled: true,
-        fillColor: const Color(0xFF1C2341),
+        fillColor: const Color.fromARGB(255, 240, 227, 202),
         hintText: hint,
         hintStyle: const TextStyle(fontSize: 23),
         border: const OutlineInputBorder(
@@ -38,16 +39,21 @@ getTextInputField(controller, hint) {
 getTextInputField1(controller, hint) {
   return Container(
     alignment: Alignment.center,
-    height: 100,
+    height: 70,
     child: TextField(
       controller: controller,
       decoration: InputDecoration(
         filled: true,
-        fillColor: const Color(0xFF1C2341),
+        fillColor: const Color.fromARGB(255, 240, 227, 202),
         hintText: hint,
-        hintStyle: const TextStyle(fontSize: 23),
+        hintStyle: const TextStyle(
+          fontSize: 15,
+          color: Colors.black,
+        ),
+        //focusColor: Colors.black,
+        //focusedBorder: const OutlineInputBorder(),
         border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
       ),
     ),
