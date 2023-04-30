@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/models/Event.dart';
+import 'package:quiz_app/screens/AddEvent/AddMember.dart';
 
 class EventCard extends StatelessWidget {
   final Color backgroundColor;
@@ -80,80 +82,34 @@ class EventCard extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Teams  ",
-                            style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const Icon(
-                            Icons.person,
-                            size: 14,
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
                       Text(
-                        restaurant.Tteams.toString(),
+                        "Teams  ",
                         style: GoogleFonts.montserrat(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      )
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
                     ],
                   ),
-                  // const CustomDivider(height: 40),
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     Row(
-                  //       children: [
-                  //         const CurrencyIcon(size: 10),
-                  //         CurrencyIcon(
-                  //             size: 10, color: Colors.grey.shade600),
-                  //         CurrencyIcon(
-                  //             size: 10, color: Colors.grey.shade600),
-                  //       ],
-                  //     ),
-                  //     const SizedBox(height: 10),
-                  //     Text(
-                  //       restaurant.price,
-                  //       style: GoogleFonts.montserrat(
-                  //         fontSize: 16,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
-                  const CustomDivider(height: 40),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "km",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        restaurant.Tteams.toString(),
-                        style: GoogleFonts.montserrat(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
+                  const SizedBox(height: 10),
+                  Text(
+                    restaurant.Tteams.toString(),
+                    style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 5,
+              ),
+              if (restaurant.status == 'created')
+                ElevatedButton(
+                    onPressed: () {
+                      Get.to(AddMembersScreen(event: restaurant));
+                    },
+                    child: const Text('Add Teams'))
             ],
           ),
         ),

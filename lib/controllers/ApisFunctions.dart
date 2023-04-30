@@ -117,7 +117,7 @@ saveEvent(eventss event) async {
         //titleText: Text('Added successfully'),
       ));
 
-      eventController.eventssList.value.add(eventss.fromMap(response.data));
+      eventController.eventssList.add(eventss.fromMap(response.data));
 
       print('s');
     } else {
